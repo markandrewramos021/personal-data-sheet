@@ -1,0 +1,1360 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+
+
+<head>
+  <link rel="icon" href = "{% static 'img/csdo.png' %}">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+</head>
+  <style>
+    .container {
+      display: none;
+      width: 100%;
+      padding: 20px;
+      margin: 0 auto;
+      border-color: black;
+      border-width: 20px;
+      border: 2cm;
+      max-width: 1600px;
+      border: 2px solid #808080; 
+      border-radius: 10px;
+    }
+      body{
+      background-color: #dbdac8;
+    }
+    .navbar{
+      background-color: #134983;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+    .title{
+      background-color: #DEF2F1;
+      padding: 10px 10px 10px 30px;
+      border-top-left-radius: 5px;
+      border-top-right-radius: 5px;
+      margin-bottom: 15px;
+    }
+    .contents{
+      border-radius: 10px;
+      padding: 10px 10px 10px 10px;
+    }
+    .status-circle {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: #32CD32;
+  }
+
+  .status-circle1 {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background-color: red;
+  }
+
+  h2{
+    color: white;
+    font-weight: bolder;
+  }
+
+  </style>
+</head>
+<body>
+
+  <nav class="navbar navbar-expand-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand">
+            <img src="{% static 'img/csdo.png' %}" style="width: 75px" class="rounded-pill" />
+        </a>
+        <h2>Admin</h2>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+            <ul class="navbar-nav ms-auto">
+              <div class="dropdown">
+
+                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 15px; background-color: #078a1d">
+                  Create PDF
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="{% url 'admin_page1' pk=data.pk %}" target="_blank" rel="noopener noreferrer">Page 1 </a></li>
+                  <li><a class="dropdown-item" href="{% url 'admin_page2' pk=data.pk %}" target="_blank" rel="noopener noreferrer">Page 2</a></li>
+                  <li><a class="dropdown-item" href="{% url 'admin_page3' pk=data.pk %}" target="_blank" rel="noopener noreferrer">Page 3</a></li>
+                  <li><a class="dropdown-item" href="{% url 'admin_page4' pk=data.pk %}" target="_blank" rel="noopener noreferrer">Page 4</a></li>
+                </ul>
+              </div>  
+              
+                <a class="btn btn-warning" style="font-size: 20px; margin-right: 10px;" href="{% url 'admindashboard' pk=request.user.id %}">Home</a> 
+                <a class="btn btn-danger" onclick="return confirm('Do you want to log out?')"
+                    style="font-size: 20px" href="{% url 'logout' %}">Log out</a>
+            </ul>
+        </div>
+    </div>
+  </nav>
+
+    <Br>
+    <div class="buttons-1 btn-group-lg text-center" role="group" aria-label="Basic mixed styles example">
+        <button type="button" class="btn btn-primary" id="button1">Personal Information</button>
+        <button type="button" class="btn btn-primary" id="button2">Family Background</button>
+        <button type="button" class="btn btn-primary" id="button3">Educational Background</button>
+        <button type="button" class="btn btn-primary" id="button4">Civil Service Eligibility</button>
+        <button type="button" class="btn btn-primary" id="button5">Work Experience</button>
+        <button type="button" class="btn btn-primary" id="button6">Voluntary Work</button>
+        <button type="button" class="btn btn-primary" id="button7">Learning & Development</button>
+        <button type="button" class="btn btn-primary" id="button8">Other Information</button>
+        <button type="button" class="btn btn-primary" id="button9">Miscellaneous Information</button>
+    </div>
+    <br>
+
+  <div id="container1" class="container">
+    <div>
+          <legend>Personal Information</legend>
+          <div class="row">
+            <div class="col">
+              <label>Surname:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.surname }}" readonly>
+            </div>
+            <div class="col">
+              <label>First Name:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.firstname }}" readonly>
+            </div>
+            <div class="col">
+              <label>Middle Name:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.middlename }}" readonly>
+            </div>
+            <div class="col-2">
+              <label>Name Extension:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.name_ext }}"  readonly>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label>Date of Birth:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.date_of_birth }}" readonly>
+            </div>
+            <div class="col">
+              <label>Place of Birth:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.place_of_birth }}"  readonly>
+            </div>
+            <div class="col-sm-3">
+              <label>Sex:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.sex }}"  readonly>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label for="citizenship">Citizenship:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.citizenship }}" readonly>
+            </div>
+            <div class="col">
+              <label>Civil Status</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.civil_status }}" readonly>
+            </div>
+            <div class="col">
+              <label>Blood Type:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.bloodtype }}" readonly>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2">
+              <label>Height (cm):</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.height }}" readonly>
+            </div>
+            <div class="col-2">
+              <label>Weight (kg):</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.weight }}" readonly>
+            </div>
+            <div class="col">
+              <label>GSIS ID No.:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.gsis }}" readonly>
+            </div>
+            <div class="col">
+              <label>AGENCY EMPLOYEE No.:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.agency_no }}" readonly>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label>PAG-IBIG ID No.:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.pagibig }}" readonly>
+            </div>
+            <div class="col">
+              <label>PHILHEALTH No.:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.philhealth }}" readonly>
+            </div>
+            <div class="col">
+              <label>SSS No.:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.sss }}" readonly>
+            </div>
+            <div class="col">
+              <label>TIN No.:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.tin }}" readonly>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label>Telephone No.:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.telno}}" readonly>
+            </div>
+            <div class="col">
+              <label>Mobile No.:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.mobile }}" readonly>
+            </div>
+            <div class="col">
+              <label>Email Address:</label>
+              <input type="text" class="form-control" value="{{ data.personal_information.email }}" readonly>
+            </div>
+          </div>
+          <hr>
+          <h5>Residential Address</h5>
+            <div class="row">
+              <div class="col">
+                <label>House/Block/Lot no.:</label>
+                <input type="text" class="form-control" value="{{ data.personal_information.res_block}}" readonly>
+              </div>
+              <div class="col">
+                <label>Street:</label>
+                <input type="text" class="form-control" value="{{ data.personal_information.res_street}}" readonly>
+              </div>
+              <div class="col">
+                <label>Subdivision/Village:</label>
+                <input type="text" class="form-control" value="{{ data.personal_information.res_subd}}" readonly>
+              </div>
+              <div class="col">
+                <label>Barangay:</label>
+                <input type="text" class="form-control" value="{{ data.personal_information.res_brgy}}" readonly>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label>Province:</label>
+                <input type="text" class="form-control" value="{{ data.personal_information.res_prov}}" readonly>
+              </div>
+              <div class="col">
+                <label>City/Municipality:</label>
+                <input type="text" class="form-control" value="{{ data.personal_information.res_city}}" readonly>
+              </div>
+              <div class="col">
+                <label>Zip Code:</label>
+                <input type="text" class="form-control" value="{{ data.personal_information.res_zip}}" readonly>
+              </div>
+            </div>
+            <hr>
+            <h5>Permanent Address</h5>
+              <div class="row">
+                <div class="col">
+                  <label>House/Block/Lot no.:</label>
+                  <input type="text" class="form-control" value="{{ data.personal_information.per_block}}" readonly>
+                </div>
+                <div class="col">
+                  <label>Street:</label>
+                  <input type="text" class="form-control" value="{{ data.personal_information.per_street}}" readonly>
+                </div>
+                <div class="col">
+                  <label>Subdivision/Village:</label>
+                  <input type="text" class="form-control" value="{{ data.personal_information.per_subd}}" readonly>
+                </div>
+                <div class="col">
+                  <label>Barangay:</label>
+                  <input type="text" class="form-control" value="{{ data.personal_information.per_brgy}}" readonly>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <label>Province:</label>
+                  <input type="text" class="form-control" value="{{ data.personal_information.per_prov}}" readonly>
+                </div>
+                <div class="col">
+                  <label>City/Municipality:</label>
+                  <input type="text" class="form-control" value="{{ data.personal_information.per_city}}" readonly>
+                </div>
+                <div class="col">
+                  <label>Zip Code:</label>
+                  <input type="text" class="form-control" value="{{ data.personal_information.per_zip}}" readonly>
+                </div>
+          </div>
+        </form>
+      </div>
+  </div>
+
+  <div id="container2" class="container">
+    <div>
+          <legend>Family Background</legend>
+          <div class="row">
+            <div class="col">
+              <label>Spouse's Surname:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.spouse_surname }}"  readonly>
+            </div>
+            <div class="col">
+              <label>First Name:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.spouse_firstname }}"readonly>
+            </div>
+            <div class="col">
+              <label>Middle Name:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.spouse_middlename }}" readonly>
+            </div>
+            <div class="col-2">
+              <label>Spouse's Extension:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.spouse_extension }}" readonly>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label>Occupation:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.occupation }}"readonly>
+            </div>
+            <div class="col">
+              <label>Employee/Business Name:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.employee_name }}"readonly>
+            </div>
+            <div class="col">
+              <label>Business Address:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.business_address }}" readonly>
+            </div>
+            <div class="col">
+              <label>Telephone No.:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.family_telno }}" readonly>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col">
+              <label>Father's Surname:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.father_surname }}" readonly>
+            </div>
+            <div class="col">
+              <label>First Name:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.father_firstname }}" readonly>
+            </div>
+            <div class="col">
+              <label>Middle Name:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.father_middlename }}" readonly>
+            </div>
+            <div class="col-2">
+              <label>Father's Extension:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.father_extension }}" readonly>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col">
+              <label>Mother's Surname:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.mother_surname }}" readonly>
+            </div>
+            <div class="col">
+              <label>First Name:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.mother_firstname }}" readonly>
+            </div>
+            <div class="col">
+              <label>Middle Name:</label>
+              <input type="text" class="form-control" value="{{ data.family_background.mother_middlename }}"readonly>
+            </div>
+          </div>
+        </form>
+
+        <hr>  
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label>Name of Children (Write full name and list all):</label>
+              <input type="text" value="{{data.family_background.child1}}" readonly class="input1 form-control">
+            </div>
+            <div class="col" id="input-container" >
+              <label>Date of Birth:</label>
+              <input type="text" value="{{data.family_background.date_birth1.month}}/{{data.family_background.date_birth1.day}}/{{data.family_background.date_birth1.year}}" class="form-control" readonly>
+            </div>
+          </div>
+
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.child2}}" readonly class="input1 form-control">
+            </div>
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.date_birth2.month}}/{{data.family_background.date_birth2.day}}/{{data.family_background.date_birth2.year}}" class="form-control" readonly>
+            </div>
+          </div>
+
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.child3}}" readonly class="input1 form-control">
+            </div>
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.date_birth3.month}}/{{data.family_background.date_birth3.day}}/{{data.family_background.date_birth3.year}}" class="form-control" readonly>
+            </div>
+          </div>
+
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.child4}}" readonly class="input1 form-control">
+            </div>
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.date_birth4.month}}/{{data.family_background.date_birth4.day}}/{{data.family_background.date_birth4.year}}" class="form-control" readonly>
+            </div>
+          </div>
+
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.child5}}" readonly class="input1 form-control">
+            </div>
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.date_birth5.month}}/{{data.family_background.date_birth5.day}}/{{data.family_background.date_birth5.year}}" class="form-control" readonly>
+            </div>
+          </div>
+
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.child6}}" readonly class="input1 form-control">
+            </div>
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.date_birth6.month}}/{{data.family_background.date_birth6.day}}/{{data.family_background.date_birth6.year}}" class="form-control" readonly>
+            </div>
+          </div>
+
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.child7}}" readonly class="input1 form-control">
+            </div>
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.date_birth7.month}}/{{data.family_background.date_birth7.day}}/{{data.family_background.date_birth7.year}}" class="form-control" readonly>
+            </div>
+          </div>
+
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.child8}}" readonly class="input1 form-control">
+            </div>
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.date_birth8.month}}/{{data.family_background.date_birth8.day}}/{{data.family_background.date_birth8.year}}" class="form-control" readonly>
+            </div>
+          </div>
+
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.child9}}" readonly class="input1 form-control">
+            </div>
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.date_birth9.month}}/{{data.family_background.date_birth9.day}}/{{data.family_background.date_birth9.year}}" class="form-control" readonly>
+            </div>
+          </div>
+
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.child10}}" readonly class="input1 form-control">
+            </div>
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" value="{{data.family_background.date_birth10.month}}/{{data.family_background.date_birth10.day}}/{{data.family_background.date_birth10.year}}" class="form-control" readonly>
+            </div>
+          </div>
+          
+      </div>
+  </div>
+  <div id="container3" class="container">
+    <div>
+          <legend>Educational Background</legend>
+          <div class="row">
+            <div class="col-2">
+              <label class="form-label">Elementary School:</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Basic Educational/Degree/Course:</label>
+            </div>
+            <div class="col">
+              <label class="form-label">Period of Attendance From</label>
+            </div>
+            <div class="col">
+              <label class="form-label">Period of Attendance To</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Highest Level/Units Earned</label>
+            </div>
+            <div class="col-1">
+              <label class="form-label">Year Graduated</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Scholarship/Honors Received</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2">
+              <input type="text" class="form-control" value="{{data.educational_background.elem_school}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text" class="form-control" value="{{data.educational_background.elem_course}}" readonly>
+            </div>
+            <div class="col">
+              <input type="text" placeholder="Ex: 1999" class="form-control" value="{{data.educational_background.elem_attendance_from}}" readonly>
+            </div>
+            <div class="col">
+              <input type="text" placeholder="Ex: 2004" class="form-control" value="{{data.educational_background.elem_attendance_to}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text"  class="form-control" value="{{data.educational_background.elem_units}}" readonly>
+            </div>
+            <div class="col-1">
+              <input type="text" placeholder="Ex: 2000" class="form-control" value="{{data.educational_background.elem_grad}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text"  class="form-control" value="{{data.educational_background.elem_honors}}" readonly>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-2">
+              <label class="form-label">Secondary School:</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Basic Educational/Degree/Course:</label>
+            </div>
+            <div class="col">
+              <label class="form-label">Period of Attendance From</label>
+            </div>
+            <div class="col">
+              <label class="form-label">Period of Attendance To</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Highest Level/Units Earned</label>
+            </div>
+            <div class="col-1">
+              <label class="form-label">Year Graduated</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Scholarship/Honors Received</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-2">
+              <input type="text" class="form-control" value="{{data.educational_background.secondary_school}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text" class="form-control" value="{{data.educational_background.secondary_course}}" readonly>
+            </div>
+            <div class="col">
+              <input type="text" placeholder="Ex: 1999" class="form-control" value="{{data.educational_background.secondary_attendance_from}}" readonly>
+            </div>
+            <div class="col">
+              <input type="text" placeholder="Ex: 2004" class="form-control" value="{{data.educational_background.secondary_attendance_to}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text"  class="form-control" value="{{data.educational_background.secondary_units}}" readonly>
+            </div>
+            <div class="col-1">
+              <input type="text" placeholder="Ex: 2000" class="form-control" value="{{data.educational_background.secondary_grad}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text"  class="form-control" value="{{data.educational_background.secondary_honors}}" readonly>
+            </div>
+          </div>
+          <hr>
+          <div class="row"> 
+            <div class="col-2">
+              <label class="form-label">Vocational/Trade Course School:</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Basic Educational/Degree/Course:</label>
+            </div>
+            <div class="col">
+              <label class="form-label">Period of Attendance From</label>
+            </div>
+            <div class="col">
+              <label class="form-label">Period of Attendance To</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Highest Level/Units Earned</label>
+            </div>
+            <div class="col-1">
+              <label class="form-label">Year Graduated</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Scholarship/Honors Received</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2">
+              <input type="text" class="form-control" value="{{data.educational_background.vocational_school}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text" class="form-control" value="{{data.educational_background.vocational_course}}" readonly>
+            </div>
+            <div class="col">
+              <input type="text" placeholder="Ex: 1999" class="form-control" value="{{data.educational_background.vocational_attendance_from}}" readonly>
+            </div>
+            <div class="col">
+              <input type="text" placeholder="Ex: 2004" class="form-control" value="{{data.educational_background.vocational_attendance_to}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text"  class="form-control" value="{{data.educational_background.vocational_units}}" readonly>
+            </div>
+            <div class="col-1">
+              <input type="text" placeholder="Ex: 2000" class="form-control" value="{{data.educational_background.vocational_grad}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text"  class="form-control" value="{{data.educational_background.vocational_honors}}" readonly>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-2">
+              <label class="form-label">College School:</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Basic Educational/Degree/Course:</label>
+            </div>
+            <div class="col">
+              <label class="form-label">Period of Attendance From</label>
+            </div>
+            <div class="col">
+              <label class="form-label">Period of Attendance To</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Highest Level/Units Earned</label>
+            </div>
+            <div class="col-1">
+              <label class="form-label">Year Graduated</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Scholarship/Honors Received</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2">
+              <input type="text" class="form-control" value="{{data.educational_background.college_school}}"readonly>
+            </div>
+            <div class="col-2">
+              <input type="text" class="form-control" value="{{data.educational_background.college_course}}" readonly>
+            </div>
+            <div class="col">
+              <input type="text" placeholder="Ex: 1999" class="form-control" value="{{data.educational_background.college_attendance_from}}" readonly>
+            </div>
+            <div class="col">
+              <input type="text" placeholder="Ex: 2004" class="form-control" value="{{data.educational_background.college_attendance_to}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text"  class="form-control" value="{{data.educational_background.college_units}}" readonly>
+            </div>
+            <div class="col-1">
+              <input type="text" placeholder="Ex: 2000" class="form-control" value="{{data.educational_background.college_grad}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text"  class="form-control" value="{{data.educational_background.college_honors}}" readonly>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col-2">
+              <label class="form-label">Graduate Studies School:</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Basic Educational/Degree/Course:</label>
+            </div>
+            <div class="col">
+              <label class="form-label">Period of Attendance From</label>
+            </div>
+            <div class="col">
+              <label class="form-label">Period of Attendance To</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Highest Level/Units Earned</label>
+            </div>
+            <div class="col-1">
+              <label class="form-label">Year Graduated</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Scholarship/Honors Received</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2">
+              <input type="text" class="form-control" value="{{data.educational_background.grad_school}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text" class="form-control" value="{{data.educational_background.grad_course}}"readonly>
+            </div>
+            <div class="col">
+              <input type="text" placeholder="Ex: 1999" class="form-control" value="{{data.educational_background.grad_attendance_from}}" readonly>
+            </div>
+            <div class="col">
+              <input type="text" placeholder="Ex: 2004" class="form-control" value="{{data.educational_background.grad_attendance_to}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text"  class="form-control" value="{{data.educational_background.grad_units}}" readonly>
+            </div>
+            <div class="col-1">
+              <input type="text" placeholder="Ex: 2000" class="form-control" value="{{data.educational_background.grad_grad}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text"  class="form-control" value="{{data.educational_background.grad_honors}}" readonly>
+            </div>
+        </div>
+    </div>
+  </div>
+  <div id="container4" class="container">
+    <div>
+        <legend>Civil Service Eligibility</legend>
+          <div class="row">
+            <div class="col-4">
+              <label class="form-label">DOCUMENT:</label>
+            </div>
+            <div class="col-1">
+              <label class="form-label">RATING(If Applicable):</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">DATE OF EXAMINATION / CONFERMENT</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">PLACE OF EXAMINATION / CONFERMENT</label>
+            </div>
+            <div class="col-1">
+              <label class="form-label">LICENSE NUMBER</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">LICENSE DATE VALIDITY</label>
+            </div>
+          </div>
+        {% for d in civil1 %}
+            <div class="row">
+                <div class="col-4">
+                <input type="text" class="form-control" value="{{d.eligibility}}" readonly>
+                </div>
+                <div class="col-1">
+                <input type="text" class="form-control" value="{{d.rating}}" readonly>
+                </div>
+                <div class="col-2">
+                <input type="text" class="form-control" value="{{d.exam_date.date}}" readonly>
+                </div>
+                <div class="col-2">
+                <input type="text" class="form-control" value="{{d.exam_place}}" readonly>
+                </div>
+                <div class="col-1">
+                <input type="text" class="form-control" value="{{d.license_number}}" readonly>
+                </div>
+                <div class="col-2">
+                <input type="text"  class="form-control"  value="{{d.license_validity_date.date}}" readonly>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+      </div>
+      </div>
+  </div>
+
+  <div id="container5" class="container">
+    <div class="personal-info" >
+          <legend>Work Experience</legend>
+          <div class="row">
+            <div class="col-1">
+              <label class="form-label">Inclusive Dates From:</label>
+            </div>
+            <div class="col-1">
+              <label class="form-label">Inclusive Dates To:</label>
+            </div>
+            <div class="col-2">
+              <label class="form-label">Position Title</label>
+              <label class="form-label">(Write in full/ Do not abbreviate)</label>
+            </div>
+            <div class="col-4">
+              <label class="form-label">Department/Agency/Office/Company</label>
+              <label class="form-label">(Write in full/ Do not abbreviate)</label>
+            </div>
+            <div class="col-1">
+              <label class="form-label">Monthly Salary</label>
+            </div>
+            <div class="col-1">
+              <label class="form-label">Salary/Job/Pay Grade</label>
+              <label class="form-label">(If applicable) & STEP(Format"00-0")/Increment</label>
+            </div>
+            <div class="col-1">
+              <label class="form-label">Status of Appointment</label>
+            </div>
+            <div class="col-1">
+              <label class="form-label">Gov't Service (Y/N)</label>
+            </div>
+          </div>
+          {% for d in work1 %}
+          <div class="row">
+            <div class="col-1">
+              <input type="text" class="form-control" value="{{d.date_from.date}}" readonly>
+            </div>
+            <div class="col-1">
+              <input type="text" class="form-control" value="{{d.date_to.date}}" readonly>
+            </div>
+            <div class="col-2">
+              <input type="text" class="form-control" value="{{d.position}}" readonly>
+            </div>
+            <div class="col-4">
+              <input type="text" class="form-control" value="{{d.department}}" readonly>
+            </div>
+            <div class="col-1">
+              <input type="text" class="form-control" value="{{d.monthly_salary}}" readonly>
+            </div>
+            <div class="col-1">
+              <input type="text" class="form-control" value="{{d.salary_grade}}" readonly>
+            </div>
+            <div class="col-1">
+              <input type="text" class="form-control" value="{{d.status}}" readonly>
+            </div>
+            <div class="col-1">
+              <input type="text" class="form-control" value="{{d.gov_service}}" readonly>
+            </div>
+          </div>
+          <br>
+          {% endfor %}
+      </div>
+  </div>
+
+  <div id="container6" class="container">
+    <div>
+          <legend>Voluntary Work</legend>
+          <div class="row">
+            <div class="col-5">
+              <label>Name & Address of Organization</label>
+            </div>
+            <div class="col-1">
+              <label>Inclusive Dates From</label>
+            </div>
+            <div class="col-1">
+              <label>Inclusive Dates To</label>
+            </div>
+            <div class="col-1">
+              <label>Number of Hrs</label>
+            </div>
+            <div class="col-4">
+              <label>Position/Nature of Work</label>
+            </div>
+          </div>
+          <hr>
+          {% for x in voluntary1 %}
+          <div class="row">
+            <div class="col-5">
+              <input type="text" class="form-control" value="{{x.org_info}}" readonly>
+            </div>
+            <div class="col-1">
+              <input type="text" class="form-control" value="{{x.date_from.date}}" readonly>
+            </div>
+            <div class="col-1">
+              <input type="text" class="form-control" value="{{x.date_to.date}}" readonly>
+            </div>
+            <div class="col-1">
+              <input type="text" class="form-control" value="{{x.work_hours}}" readonly>
+            </div>
+            <div class="col-4">
+              <input type="text" class="form-control" value="{{x.position}}" readonly>
+            </div>
+          </div>
+          <hr>
+          {% endfor %}
+      </div>
+  </div>
+
+  <div id="container7" class="container">
+    <div>
+          {% for d in learning1 %}
+          <div class="row">
+            <div class="col-4">
+              <input type="text" class="form-control" readonly value="{{d.title}}">
+            </div>
+            <div class="col-1">
+              <input type="datetime" class="form-control" readonly value="{{d.date_of_attendance_from.date}}">
+            </div>
+            <div class="col-1">
+              <input type="datetime" class="form-control" readonly value="{{d.date_of_attendance_to.date}}">
+            </div>
+            <div class="col-1">
+              <input type="text" class="form-control" readonly value="{{d.work_hours}}">
+            </div>
+            <div class="col-1">
+              <input type="text" class="form-control" readonly value="{{d.type_of_ld}}">
+            </div>
+            <div class="col-4">
+              <input type="text" class="form-control" readonly value="{{d.conducted}}">
+            </div>
+          </div>
+          <hr>
+          {% endfor %}
+      </div>
+  </div>
+
+  <div id="container8" class="container">
+    <div>
+
+          {% for d in references1 %}
+          <legend>References</legend>
+          <div class="row">
+            <div class="col">
+              <label>Name:</label>
+              <input type="text" class="form-control" value="{{d.name1}}" name="name1" id="name1" readonly>
+            </div>
+            <div class="col">
+              <label>Address:</label>
+              <input type="text" class="form-control" value="{{d.address1}}" name="address1" id="address1" readonly>
+            </div>
+            <div class="col">
+              <label>Tel No.:</label>
+              <input type="text" class="form-control" value="{{d.telno1}}" name="telno1" id="telno1" readonly>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label>Name:</label>
+              <input type="text" class="form-control" value="{{d.name2}}" name="name2" id="name2" readonly>
+            </div>
+            <div class="col">
+              <label>Address:</label>
+              <input type="text" class="form-control" value="{{d.address2}}" name="address2" id="address2" readonly>
+            </div>
+            <div class="col">
+              <label>Tel No.:</label>
+              <input type="text" class="form-control" value="{{d.telno2}}" name="telno2" id="telno2" readonly>
+            </div>
+          </div>
+      
+          <div class="row">
+            <div class="col">
+              <label>Name:</label>
+              <input type="text" class="form-control" value="{{d.name3}}" name="name3" id="name3" readonly>
+            </div>
+            <div class="col">
+              <label>Address:</label>
+              <input type="text" class="form-control" value="{{d.address3}}" name="address3" id="address3" readonly>
+            </div>
+            <div class="col">
+              <label>Tel No.:</label>
+              <input type="text" class="form-control" value="{{d.telno3}}" name="telno3" id="telno3" readonly>
+            </div>
+          </div>
+          <hr>
+          <legend>Government Issued ID</legend>
+          <div class="row">
+            <div class="col">
+              <label>Government Issued ID:</label>
+              <input type="text" class="form-control" value="{{d.gov_id}}" name="gov_id" id="gov_id" readonly>
+            </div>
+            <div class="col">
+              <label>ID/License/Passport No.:</label>
+              <input type="text" class="form-control" value="{{d.license_id}}" name="license_id" id="license_id" readonly>
+            </div>
+            <div class="col">
+              <label>Date of Issuance:</label>
+              <input type="text" class="form-control" value="{{d.date}}"  readonly>
+            </div>
+          </div>
+          <hr>
+          {% endfor %}
+          <legend>Hobbies</legend>
+          <div class="row" id="row-row-row">
+            <div class="col-3">
+              <label>Special Skills and Hobbies </label>
+            </div>
+            <div class="col-5">
+              <label>Non-Academic Distinctions/Recognition</label>
+            </div>
+            <div class="col-4">
+              <label>Membership in Association/Organization</label>
+            </div>
+          </div>
+          <hr>
+            {% for d in other1 %}
+            <div class="row" id="input-container">
+              <div class="col-3">
+                <input type="text" class="form-control" value="{{d.skills_hobbies}}" readonly>
+              </div>
+              <div class="col-5">
+                <input type="text" class="form-control" value="{{d.non_acad_recognition}}" readonly>
+              </div>
+              <div class="col-4">
+                <input type="text" class="form-control" value="{{d.membership}}" readonly>
+              </div>
+            </div>
+            <hr>
+            {% endfor %}
+      </div>
+  </div>
+
+  <div id="container9" class="container">
+    <div>
+      <form action="" method="POST">
+        {% csrf_token %}
+        <legend>Miscellaneous Information</legend>
+
+        <div class="row">
+          <label>Are you related by consanguinity or affinity to the appointing or recommending authority, or to the 
+            chief of bureau or office or to the person who has immediate supervision over you in the Office,Bureau or Department where you will be apppointed,
+          </label>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-4">
+            <label>Within the third degree?</label><Br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input"  type="radio" name="third_degree" id="third_degree" value="yes" disabled onclick="showInputText3()"  {% if data.miscellaneousinfo.third_degree == 'yes' %} checked  {% endif %}>
+                <label class="form-check-label"  for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="third_degree" id="third_degree" value="no" disabled onclick="hideInputText3()" {% if data.miscellaneousinfo.third_degree == 'no' %} checked  {% endif %}>
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+              {% if data.miscellaneousinfo.third_degree == 'no' %}
+              <div class="result1" id="result1">
+                <label>If yes, give details:</label>
+                <input type="text" class="form-control" name="third_degree_group" id="third_degree_group" disabled>
+              </div> 
+              {% else %}
+                <div class="result1" id="result1">
+                  <label>If yes, give details:</label>
+                  <input type="text" class="form-control" name="third_degree_group" id="third_degree_group" readonly value="{{data.miscellaneousinfo.third_degree_specify}}">
+                </div> 
+              {% endif %}
+          </div>
+
+          <div class="col-4">
+            <label>Within the fourth degree?(LGU - Career Employees)</label><Br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="fourth_degree" id="fourth_degree" value="yes" disabled readonly {% if data.miscellaneousinfo.fourth_degree == 'yes' %} checked  {% endif %} onclick="showInputText4()">
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="fourth_degree" id="fourth_degree" value="no" disabled readonly {% if data.miscellaneousinfo.fourth_degree == 'no' %} checked  {% endif %} onclick="hideInputText4()">
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+              {% if data.miscellaneousinfo.fourth_degree == 'no' %}
+               <div class="result1" id="result1">
+                <label>If yes, give details:</label>
+                <input type="text" class="form-control" name="fourth_degree_group" id="fourth_degree_group" readonly disabled>
+              </div> 
+              {% else %}
+                <div class="result1" id="result1">
+                  <label>If yes, give details:</label>
+                  <input type="text" class="form-control" name="fourth_degree_group" id="fourth_degree_group" readonly value="{{data.miscellaneousinfo.fourth_degree_specify}}">
+                </div> 
+              {% endif %}
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-4">
+            <label>Have you ever been found guilty of any administrative offense?</label><Br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="guilty" id="guilty" value="yes" disabled onclick="showInputText5()" {% if data.miscellaneousinfo.guilty == 'yes' %} checked {% endif %}>
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="guilty" id="guilty" value="no" disabled onclick="hideInputText5()" {% if data.miscellaneousinfo.guilty == 'no' %} checked {% endif %}>
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+              {% if data.miscellaneousinfo.guilty == 'no' %}
+              <div class="hidden" id="inputContainer2">
+                <label>If yes, give details:</label>
+                <input type="text" class="form-control" name="guilty_group" id="guilty_group" readonly disabled>
+              </div>
+              {% else %}
+              <div class="hidden" id="inputContainer2">
+                <label>If yes, give details:</label>
+                <input type="text" class="form-control" name="guilty_group" id="guilty_group" readonly value="{{data.miscellaneousinfo.guilty_specify}}">
+              </div>
+              {% endif %}
+          </div>
+
+          <div class="col-4">
+            <label>Have you been criminally charged before any court?</label><Br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="criminally" id="criminally" value="yes" disabled onclick="showInputText6()" {% if data.miscellaneousinfo.criminally == 'yes' %} checked {% endif %}>
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="criminally" id="criminally" value="no" disabled onclick="hideInputText6()" {% if data.miscellaneousinfo.criminally == 'no' %} checked {% endif %}>
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+              {% if data.miscellaneousinfo.criminally == 'no' %}
+              <div class="hidden" id="inputContainer2">
+                <label>If yes, give details:</label>
+                <input type="text" class="form-control" name="criminally_group" id="criminally_group" readonly disabled>
+              </div>
+              {% else %}
+              <div class="hidden" id="inputContainer2">
+                <label>If yes, give details:</label>
+                <input type="text" class="form-control" name="criminally_group" id="criminally_group" readonly value="{{data.miscellaneousinfo.criminally_specify}}">
+                <input type="text" class="form-control" name="criminally_group" id="date-1" readonly value="{{data.miscellaneousinfo.date}}">
+              </div>
+              {% endif %}
+          </div>
+        </div>
+        <hr>
+        <div class="row">           
+          <div class="col-5">
+            <label>Have you ever been convicted of any crime or violation of any law, decree, ordinance or regulation by 
+              any court or tribunal?</label><Br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="convicted" id="convicted" value="yes" disabled onclick="showInputText7()"  {% if data.miscellaneousinfo.convicted == 'yes' %} checked  {% endif %}>
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="convicted" id="convicted" value="no" disabled onclick="hideInputText7()" {% if data.miscellaneousinfo.convicted == 'no' %} checked  {% endif %}>
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+              {% if data.miscellaneousinfo.convicted == 'no' %}
+                <div id="inputContainer">
+                  <label>If yes, give details:</label>
+                  <input type="text" class="form-control" name="convicted_group" id="convicted_group" readonly disabled>
+                </div>
+              {% else %}
+                <div id="inputContainer">
+                  <label>If yes, give details:</label>
+                  <input type="text" class="form-control" name="convicted_group" id="convicted_group" readonly value="{{data.miscellaneousinfo.convicted_specify}}">
+                </div>
+              {% endif %}
+          </div>
+
+          <div class="col">
+            <label>Have you ever been separated from the service in any of the following modes: resignation, 
+              retirement, dropped from the rolls, dismissal, termination, end of term, finished contract or phased out 
+              (abolition) in the public or private sector?</label><Br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="separated_service" id="separated_service" value="yes" disabled onclick="showInputText8()" {% if data.miscellaneousinfo.separated_service == 'yes' %} checked  {% endif %} >
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="separated_service" id="separated_service" value="no" disabled onclick="hideInputText8()" {% if data.miscellaneousinfo.separated_service == 'no' %} checked  {% endif %} >
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+              {% if data.miscellaneousinfo.separated_service == 'no' %}
+              <div class="result1" id="result1">
+                <label>If yes, give details:</label>
+                <input type="text" class="form-control" name="separated_service_group" id="separated_service_group" readonly disabled>
+              </div> 
+              {% else %}
+                <div class="result1" id="result1">
+                  <label>If yes, give details:</label>
+                  <input type="text" class="form-control" name="separated_service_group" id="separated_service_group" readonly value="{{data.miscellaneousinfo.separated_service_specify}}">
+                </div> 
+              {% endif %}
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-4">
+            <label> Have you ever been a candidate in a national or local election held within the last year (except 
+              Barangay election)?</label><Br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="candidate" id="candidate" value="yes" disabled onclick="showInputText9()" readonly {% if data.miscellaneousinfo.candidate == 'yes' %} checked {% endif %}>
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="candidate" id="candidate" value="no" disabled onclick="hideInputText9()" readonly {% if data.miscellaneousinfo.candidate == 'no' %} checked {% endif %}>
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+              {% if data.miscellaneousinfo.candidate == 'no' %}
+              <div class="hidden" id="inputContainer2">
+                <label>If yes, give details:</label>
+                <input type="text" class="form-control" name="candidate_group" id="candidate_group" readonly disabled>
+              </div>
+              {% else %}
+              <div class="hidden" id="inputContainer2">
+                <label>If yes, give details:</label>
+                <input type="text" class="form-control" name="candidate_group" id="candidate_group" readonly value="{{data.miscellaneousinfo.candidate_specify}}">
+              </div>
+              {% endif %}
+          </div>
+
+          <div class="col-5">
+            <label> Have you resigned from the government service during the three (3)-month period before the last 
+              election to promote/actively campaign for a national or local candidate?</label><Br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="resigned" id="resigned" value="yes" disabled onclick="showInputText10()" {% if data.miscellaneousinfo.resigned == 'yes' %} checked {% endif %}>
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="resigned" id="resigned" value="no" disabled onclick="hideInputText10()" {% if data.miscellaneousinfo.resigned == 'no' %} checked {% endif %}>
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+              {% if data.miscellaneousinfo.resigned == 'no' %}
+              <div class="hidden" id="inputContainer2">
+                <label>If yes, give details:</label>
+                <input type="text" class="form-control" name="resigned_group" id="resigned_group"  readonly disabled>
+              </div>
+              {% else %}
+              <div class="hidden" id="inputContainer2">
+                <label>If yes, give details:</label>
+                <input type="text" class="form-control" name="resigned_group" id="resigned_group" readonly value="{{data.miscellaneousinfo.resigned_specify}}">
+              </div>
+              {% endif %}
+          </div>
+
+          <div class="col">
+            <label> Have you acquired the status of an immigrant or permanent resident of another country?</label><Br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="immigrant" id="immigrant" value="yes" disabled onclick="showInputText11()" {% if data.miscellaneousinfo.immigrant == 'yes' %} checked {% endif %}>
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="immigrant" id="immigrant" value="no" disabled onclick="hideInputText11()" {% if data.miscellaneousinfo.immigrant == 'no' %} checked {% endif %}>
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+              {% if data.miscellaneousinfo.immigrant == 'no' %}
+              <div class="hidden" id="inputContainer2">
+                <label>If yes, give details:</label>
+                <input type="text" class="form-control" name="immigrant_group" id="immigrant_group" readonly disabled>
+              </div>
+              {% else %}
+              <div class="hidden" id="inputContainer2">
+                <label>If yes, give details:</label>
+                <input type="text" class="form-control" name="immigrant_group" id="immigrant_group" readonly value="{{data.miscellaneousinfo.immigrant_specify}}">
+              </div>
+              {% endif %}
+          </div>
+        </div>
+        <hr>
+        <div class="row">
+          <div class="col-4">
+            <label>Are you a member of any indigenous group?</label><Br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="indigenous" id="indigenous" value="yes" disabled onclick="showInputText()"  {% if data.miscellaneousinfo.indigenous == 'yes' %} checked  {% endif %}>
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="indigenous" id="indigenous" value="no" disabled onclick="hideInputText()" {% if data.miscellaneousinfo.indigenous == 'no' %} checked  {% endif %}>
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+              {% if data.miscellaneousinfo.indigenous == 'no' %}
+                <div id="inputContainer">
+                  <label>If yes, please specify:</label>
+                  <input type="text" class="form-control" name="indig_group" id="indig_group" readonly disabled>
+                </div>
+              {% else %}
+                <div id="inputContainer">
+                  <label>If yes, please specify:</label>
+                  <input type="text" class="form-control" name="indig_group" id="indig_group" readonly value="{{data.miscellaneousinfo.indig_specify}}">
+                </div>
+              {% endif %}
+          </div>
+
+          <div class="col">
+            <label>Are you a person with disability?</label><Br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="disability" disabled id="disability" value="yes" readonly {% if data.miscellaneousinfo.disability == 'yes' %} checked  {% endif %} onclick="showInputText1()">
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="disability"  disabled id="disability" value="no" readonly {% if data.miscellaneousinfo.disability == 'no' %} checked  {% endif %} onclick="hideInputText1()">
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+              {% if data.miscellaneousinfo.disability == 'no' %}
+               <div class="result1" id="result1">
+                <label>If yes, please specify ID No:</label>
+                <input type="text" class="form-control" name="disab_group" id="disab_group" readonly disabled>
+              </div> 
+              {% else %}
+                <div class="result1" id="result1">
+                  <label>If yes, please specify ID No:</label>
+                  <input type="text" class="form-control" name="disab_group" id="disab_group" readonly value="{{data.miscellaneousinfo.disab_specify}}">
+                </div> 
+              {% endif %}
+          </div>
+
+          <div class="col">
+            <label>Are you a solo parent?</label><Br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="solo" id="solo" value="yes" disabled onclick="showInputText2()" readonly {% if data.miscellaneousinfo.solo_parent == 'yes' %} checked {% endif %}>
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="solo" id="solo" value="no" disabled onclick="hideInputText2()" readonly {% if data.miscellaneousinfo.solo_parent == 'no' %} checked {% endif %}>
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+              {% if data.miscellaneousinfo.solo_parent == 'no' %}
+              <div class="hidden" id="inputContainer2">
+                <label>If yes, please specify ID No:</label>
+                <input type="text" class="form-control" name="solo_group" id="solo_group" readonly disabled>
+              </div>
+              {% else %}
+              <div class="hidden" id="inputContainer2">
+                <label>If yes, please specify ID No:</label>
+                <input type="text" class="form-control" name="solo_group" id="solo_group" readonly value="{{data.miscellaneousinfo.solo_specify}}">
+              </div>
+              {% endif %}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>  
+  
+
+  <script>
+    function hideAllContainers() {
+      var containers = document.getElementsByClassName("container");
+      for (var i = 0; i < containers.length; i++) {
+        containers[i].style.display = "none";
+      }
+    }
+
+    function toggleContainer(containerId) {
+      hideAllContainers();
+      var container = document.getElementById(containerId);
+      container.style.display = "block";
+    }
+
+    document.getElementById("button1").addEventListener("click", function() {
+      toggleContainer("container1");
+    });
+
+    document.getElementById("button2").addEventListener("click", function() {
+      toggleContainer("container2");
+    });
+
+    document.getElementById("button3").addEventListener("click", function() {
+      toggleContainer("container3");
+    });
+
+    document.getElementById("button4").addEventListener("click", function() {
+      toggleContainer("container4");
+    });
+
+    document.getElementById("button5").addEventListener("click", function() {
+      toggleContainer("container5");
+    });
+
+    document.getElementById("button6").addEventListener("click", function() {
+      toggleContainer("container6");
+    });
+
+    document.getElementById("button7").addEventListener("click", function() {
+      toggleContainer("container7");
+    });
+
+    document.getElementById("button8").addEventListener("click", function() {
+      toggleContainer("container8");
+    });
+
+    document.getElementById("button9").addEventListener("click", function() {
+      toggleContainer("container9");
+    });
+  </script>
+</body>
+</html>

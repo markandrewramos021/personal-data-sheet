@@ -1,0 +1,955 @@
+{% load socialaccount %}
+{% block content %}
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <title>Employee Dashboard</title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href = "{% static 'img/csdo.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-sm">
+      <div class="container-fluid">
+            <a class="navbar-brand" >
+                <img src="static/img/csdo.png" style="width:75px;" class="rounded-pill">
+            </a>
+        <h2>{{user.first_name}}</h2>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav ms-auto">
+
+            
+            <div class="dropdown">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 15px; background-color: #078a1d">
+                Create PDF
+              </a>
+            
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'page1' %}" target="_blank" rel="noopener noreferrer">Page 1</a></li>
+                <li><a class="dropdown-item" href="{% url 'page2' %}" target="_blank" rel="noopener noreferrer">Page 2</a></li>
+                <li><a class="dropdown-item" href="{% url 'page3' %}" target="_blank" rel="noopener noreferrer">Page 3</a></li>
+                <li><a class="dropdown-item" href="{% url 'page4' %}" target="_blank" rel="noopener noreferrer">Page 4</a></li>
+              </ul>
+            </div>  
+
+            <a class="btn btn-warning" style="font-size: 15px; margin-right: 15px;" href="{% url 'editprofile' %}">Edit Profile</a>
+            <a class="btn btn-danger" onclick="return confirm('Do you want to log out?')" style="font-size: 15px; margin-right: 10px;" href="{% url 'logout' %}">Log out</a>
+          </ul>
+        </div> 
+    </div>
+    </nav>
+    <br>
+    <div class="title">
+      <h1>CSC Form 212 (Revised 2017) - Personal Data Sheet</h1></div>
+    <br>
+    <div class="form-btn d-flex justify-content-center">
+      <div>
+        {% csrf_token %}
+        {% for d in data %}
+          <img src="{{d.image.url}}" class="profile">
+        {% endfor %}
+      </div>
+      <div class="buttons-1 btn-group" role="group" aria-label="Basic mixed styles example">
+        <a href="{% url 'userdashboard' %}"><button type="button" class="btn btn-primary" id="showFormBtn1">Personal Information</button></a>
+        <a href="{% url 'familybackground' %}"><button type="button" class="btn btn-primary" id="showFormBtn2">Family Background</button></a>
+        <a href="{% url 'educationalbackground' %}"><button type="button" class="btn btn-primary" id="showFormBtn3">Educational Background</button></a>
+        <a href="{% url 'civilservice' %}"><button type="button" class="btn btn-primary" id="showFormBtn4">Civil Service Eligibility</button></a>
+        <a href="{% url 'workexperience' %}"><button type="button" class="btn btn-primary" id="showFormBtn5">Work Experience</button></a>
+        <a href="{% url 'voluntarywork' %}"><button type="button" class="btn btn-primary" id="showFormBtn6">Voluntary Work</button></a>
+        <a href="{% url 'learning' %}"><button type="button" class="btn btn-primary" id="showFormBtn7">Learning & Development</button></a>
+        <a href="{% url 'otherinfo' %}"><button type="button" class="btn btn-primary" id="showFormBtn8">Other Information</button></a>
+      </div>
+    </div>
+    
+     <!-- Personal info FORM -->
+     <br>
+    <div class="personal-info" id="myForm1">
+        <form action="/personalinfo" method="post">
+          {% if form.errors %}
+    <div class="alert alert-danger">
+        {{ form.errors }}
+    </div>
+    {% endif %}
+        <form action="" method="POST">
+          {% csrf_token %}
+          <legend>Personal Information</legend>
+          <div class="row">
+            <div class="col">
+              <label>Surname:</label>
+              <input type="text" class="form-control" value="{{ request.user.personal_information.surname }}" name="surname" id="surname">
+            </div>
+            <div class="col">
+              <label>First Name:</label>
+              <input type="text" class="form-control" value="{{ request.user.personal_information.firstname }}"name="firstname" id="firstname">
+            </div>
+            <div class="col">
+              <label>Middle Name:</label>
+              <input type="text" class="form-control" value="{{ request.user.personal_information.middlename }}" name="middlename" id="middlename">
+            </div>
+            <div class="col-2">
+              <label>Name Extension:</label>
+              <input type="text" class="form-control" value="{{ request.user.personal_information.name_ext }}" name="name_ext" id="name_ext">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label>Date of Birth:</label>
+              <input type="date" class="form-control" value="{{ request.user.personal_information.date_of_birth }}" placeholder="Date" name="date_of_birth" id="date_of_birth" required>
+            </div>
+            <div class="col">
+              <label>Place of Birth:</label>
+              <input type="text" class="form-control" value="{{ request.user.personal_information.place_of_birth }}" name="place_of_birth" id="place_of_birth">
+            </div>
+            <div class="col-sm-3">
+              <label>Sex:</label>
+              <select class="form-select" id="autoSizingSelect"  name="sex" id="sex">
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label for="citizenship">Citizenship:</label>
+              <input type="text" class="form-control" value="{{ request.user.personal_information.citizenship }}"name="citizenship" id="citizenship">
+            </div>
+            <div class="col">
+              <label>Civil Status</label>
+              <select class="form-select" id="autoSizingSelect" name="civil_status" id="civil_status">
+                <option value="{{ request.user.personal_information.civil_status }}">{{ user.personal_information.civil_status }}</option>
+                <option value="Single">Single</option>
+                <option value="Married">Married</option>
+                <option value="Widowed">Widowed</option>
+                <option value="Separated">Separated</option>
+              </select>
+            </div>
+            <div class="col">
+              <label>Blood Type:</label>
+              <select class="form-select" id="autoSizingSelect" name="bloodtype" id="bloodtype">
+                <option value="{{ user.personal_information.bloodtype }}">{{ user.personal_information.bloodtype }}</option>
+                <option value="O+">O+</option>
+                <option value="O-">O-</option>
+                <option value="A+">A+</option>
+                <option value="A-">A-</option>
+                <option value="B+">B+</option>
+                <option value="B-">B-</option>
+                <option value="AB+">AB+</option>
+                <option value="AB-">AB-</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-2">
+              <label>Height (cm):</label>
+              <input type="text" class="form-control" value="{{ user.personal_information.height }}" name="height" id="height">
+            </div>
+            <div class="col-2">
+              <label>Weight (kg):</label>
+              <input type="text" class="form-control" value="{{ user.personal_information.weight }}" name="weight" id="weight">
+            </div>
+            <div class="col">
+              <label>GSIS ID No.:</label>
+              <input type="text" class="form-control" value="{{ user.personal_information.gsis }}" name="gsis" id="gsis">
+            </div>
+            <div class="col">
+              <label>AGENCY EMPLOYEE No.:</label>
+              <input type="text" class="form-control" value="{{ user.personal_information.agency_no }}" name="agency_no" id="agency_no">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label>PAG-IBIG ID No.:</label>
+              <input type="text" class="form-control" value="{{ user.personal_information.pagibig }}" name="pagibig" id="pagibig">
+            </div>
+            <div class="col">
+              <label>PHILHEALTH No.:</label>
+              <input type="text" class="form-control" value="{{ user.personal_information.philhealth }}" name="philhealth" id="philhealth">
+            </div>
+            <div class="col">
+              <label>SSS No.:</label>
+              <input type="text" class="form-control" value="{{ user.personal_information.sss }}" name="sss" id="sss">
+            </div>
+            <div class="col">
+              <label>TIN No.:</label>
+              <input type="text" class="form-control" value="{{ user.personal_information.tin }}" name="tin" id="tin">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label>Telephone No.:</label>
+              <input type="text" class="form-control" value="{{ user.personal_information.telno}}" name="telno" id="telno">
+            </div>
+            <div class="col">
+              <label>Mobile No.:</label>
+              <input type="text" class="form-control" value="{{ user.personal_information.mobile }}" name="mobile" id="mobile">
+            </div>
+            <div class="col">
+              <label>Email Address:</label>
+              <input type="text" class="form-control" value="{{ user.personal_information.email }}" name="email" id="email">
+            </div>
+          </div>
+          <hr>
+          <h5>Residential Address</h5>
+            <div class="row">
+              <div class="col">
+                <label>House/Block/Lot no.:</label>
+                <input type="text" class="form-control" value="{{ user.personal_information.res_block}}" name="res_block" id="res_block">
+              </div>
+              <div class="col">
+                <label>Street:</label>
+                <input type="text" class="form-control" value="{{ user.personal_information.res_street}}" name="res_street" id="res_street">
+              </div>
+              <div class="col">
+                <label>Subdivision/Village:</label>
+                <input type="text" class="form-control" value="{{ user.personal_information.res_subd}}" name="res_subd" id="res_subd">
+              </div>
+              <div class="col">
+                <label>Barangay:</label>
+                <input type="text" class="form-control" value="{{ user.personal_information.res_brgy}}" name="res_brgy" id="res_brgy">
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                <label>Province:</label>
+                <select id="province" name="res_prov" class="form-control"></select>	
+              </div>
+              <div class="col">
+                <label>City/Municipality:</label>
+                <select id="city" name="res_city" class="form-control"></select>	
+              </div>
+              <div class="col">
+                <label>Zip Code:</label>
+                <input type="text" class="form-control" value="{{ user.personal_information.res_zip}}" name="res_zip" id="res_zip">
+              </div>
+            </div>
+            <hr>
+            <h5>Permanent Address</h5>
+              <div class="row">
+                <div class="col">
+                  <label>House/Block/Lot no.:</label>
+                  <input type="text" class="form-control" value="{{ user.personal_information.per_block}}" name="per_block" id="per_block">
+                </div>
+                <div class="col">
+                  <label>Street:</label>
+                  <input type="text" class="form-control" value="{{ user.personal_information.per_street}}" name="per_street" id="per_street">
+                </div>
+                <div class="col">
+                  <label>Subdivision/Village:</label>
+                  <input type="text" class="form-control" value="{{ user.personal_information.per_subd}}" name="per_subd" id="per_subd">
+                </div>
+                <div class="col">
+                  <label>Barangay:</label>
+                  <input type="text" class="form-control" value="{{ user.personal_information.per_brgy}}" name="per_brgy" id="per_brgy">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <label>Province:</label>
+                  <select id="province1" name="per_prov" class="form-control"></select>	
+                </div>
+                <div class="col">
+                  <label>City/Municipality:</label>
+                  <select id="city1" name="per_city" class="form-control"></select>	
+                </div>
+                <div class="col">
+                  <label>Zip Code:</label>
+                  <input type="text" class="form-control" value="{{ user.personal_information.per_zip}}" name="per_zip" id="per_zip">
+                </div>
+          </div>
+          <br>
+          <div class="save-btn">
+            <button type="submit" id="save" name="save"class="btn btn-secondary" >Save</button>
+          </div>
+        </form>
+      </div>
+  </body>
+</html>
+{% endblock %}
+
+<style>
+  body{
+    background-color: #dbdac8;
+  }
+  .personal-info{
+    width: 100%;
+    padding: 20px;
+    margin: 0 auto;
+    border-color: black;
+    border-width: 20px;
+    border: 2cm;
+    max-width: 1600px;
+    border: 2px solid #808080; 
+    border-radius: 10px;
+
+  }
+  .navbar{
+    background-color: #134983;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  h2{
+    color: white;
+    font-weight: bolder;
+  }
+  form{
+    width: 100%;
+    align-self: center;
+  }
+  .title{
+    padding-left: 30px;
+  }
+  .container{
+    display: block;
+  }
+  .form-btn{
+    align-items: center;
+  }
+  .profile{
+    width: 100%;
+    max-width: 200px;
+    padding-right: 50px;
+  }
+  .buttons-1{
+    justify-content: space-between;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0px 10px 0px 10px;
+  }
+
+  @media only screen and (max-width: 600px) {
+  .profile {
+    display: none;
+  }
+  /* .buttons-1{
+    flex-direction: column;
+    align-items: center;
+  } */
+  }
+  @media only screen and (max-width: 800px) {
+  .profile {
+    display: none;
+  }
+  
+  /* .buttons-1{
+    flex-direction: column;
+    align-items: center;
+  } */
+  }
+  .save-btn{
+    text-align: right;
+  }
+</style>
+
+<script>
+  /**
+* Philippine Provinces & Cities/Municipalities on HTML Dropdown
+*
+* @ version 1.0.0
+* @ author Marvic R. Macalintal
+*/
+var cities = {
+'Abra'  : [
+  'Bangued','Boliney','Bucay','Bucloc','Daguioman','Danglas',
+  'Dolores','La Paz','Lacub','Lagangilang','Lagayan','Langiden',
+  'Licuan-Baay','Luba','Malibcong','Manabo','Peñarrubia','Pidigan',
+  'Pilar','Sallapadan','San Isidro','San Juan','San Quintin','Tayum',
+  'Tineg','Tubo','Villaviciosa'
+  ],
+'Agusan del Norte' : [
+  'Buenavista','Butuan','Cabadbaran','Carmen','Jabonga','Kitcharao',
+  'Las Nieves','Magallanes','Nasipit','Remedios T. Romualdez','Santiago',
+  'Tubay'
+  ],
+'Agusan del Sur' : [
+  'Bayugan','Bunawan','Esperanza','La Paz','Loreto','Prosperidad',
+  'Rosario','San Francisco','San Luis','Santa Josefa','Sibagat',
+  'Talacogon','Trento','Veruela'
+  ],
+'Aklan' : [
+  'Altavas','Balete','Banga','Batan','Buruanga','Ibajay',
+  'Kalibo','Lezo','Libacao','Madalag','Makato','Malay',
+  'Malinao','Nabas','New Washington','Numancia','Tangalan'
+  ],
+'Albay' : [
+  'Bacacay','Camalig','Daraga','Guinobatan','Jovellar','Legazpi',
+  'Libon','Ligao','Malilipot','Malinao','Manito','Oas',
+  'Pio Duran','Polangui','Rapu-Rapu','Santo Domingo','Tabaco',
+  'Tiwi'
+  ],
+'Antique' : [
+  'Anini-y','Barbaza','Belison','Bugasong','Caluya','Culasi',
+  'Hamtic','Laua-an','Libertad','Pandan','Patnongon','San Jose de Buenavista',
+  'San Remigio','Sebaste','Sibalom','Tibiao','Tobias Fornier','Valderrama'
+  ],
+'Apayao' : [
+  'Calanasan','Conner','Flora','Kabugao','Luna','Pudtol',
+  'Santa Marcela'
+  ],
+'Aurora' : [
+  'Baler','Casiguran','Dilasag','Dinalungan','Dingalan','Dipaculao',
+  'Maria Aurora','San Luis'
+  ],
+'Basilan' : [
+  'Akbar','Al-Barka','Hadji Mohammad Ajul','Hadji Muhtamad','Isabela City','Lamitan',
+  'Lantawan','Maluso','Sumisip','Tabuan-Lasa','Tipo-Tipo','Tuburan',
+  'Ungkaya Pukan'
+  ],
+'Bataan' : [
+  'Abucay','Bagac','Balanga','Dinalupihan','Hermosa','Limay',
+  'Mariveles','Morong','Orani','Orion','Pilar','Samal',
+  ],
+'Batanes' : [
+  'Basco','Itbayat','Ivana','Mahatao','Sabtang','Uyugan'
+  ],
+'Batangas' : [
+  'Agoncillo','Alitagtag','Balayan','Balete','Batangas City','Bauan',
+  'Calaca','Calatagan','Cuenca','Ibaan','Laurel','Lemery',
+  'Lian','Lipa','Lobo','Mabini', 'Malvar','Mataas na kahoy',
+  'Nasugbu','Padre Garcia','Rosario','San Jose','San Juan','San Luis',
+  'San Nicolas','San Pascual','Santa Teresita','Santo Tomas','Taal',
+  'Talisay','Tanauan','Taysan','Tingloy','Tuy'
+  ],
+'Benguet' : [
+  'Atok','Baguio','Bakun','Bokod','Buguias','Itogon',
+  'Kabayan','Kapangan','Kibungan','La Trinidad','Mankayan','Sablan',
+  'Tuba','Tublay'
+  ],
+'Biliran' : [
+  'Almeria','Biliran','Cabucgayan','Caibiran','Culaba','Kawayan',
+  'Maripipi','Naval'
+  ],
+'Bohol' : [
+  'Alicia','Anda','Batuan','Bilar','Candijay','Carmen',
+  'Dimiao','Duero','Garcia Hernandez','Guindulman','Jagna','Sevilla',
+  'Lila','Loay','Loboc','Mabini', 'Pilar','Sierra Bullones',
+  'Valencia'
+  ],	
+'Bukidnon' : [
+  'Baungon','Cabanglasan','Damulog','Dangcagan','Don Carlos','Impasugong',
+  'Kadingilan','Kalilangan','Kibawe','Kitaotao','Lantapan','Libona',
+  'Malaybalay','Malitbog','Manolo Fortich','Maramag', 'Pangantucan','Quezon',
+  'San Fernando','Sumilao','Talakag','Valencia'
+  ],
+'Bulacan' : [
+  'Angat','Balagtas','Baliuag','Bocaue','Bulakan','Bustos',
+  'Calumpit','Doña Remedios Trinidad','Guiguinto','Hagonoy','Malolos','Marilao',
+  'Meycauayan','Norzagaray','Obando','Pandi', 'Paombong','Plaridel',
+  'Pulilan','San Ildefonso','San Jose del Monte','San Miguel','San Rafael','Santa Maria'
+  ],
+'Cagayan' : [
+  'Abulug','Alcala','Allacapan','Amulung','Aparri','Baggao',
+  'Ballesteros','Buguey','Calayan','Camalaniugan','Claveria','Enrile',
+  'Gattaran','Gonzaga','Iguig','Lal-lo', 'Lasam','Pamplona',
+  'Peñablanca','Piat','Rizal','Sanchez-Mira','Santa Ana','Santa Praxedes',
+  'Santa Teresita','Santo Niño','Solana','Tuao','Tuguegarao City'
+  ],	
+'Camarines Norte' : [
+  'Basud','Capalonga','Daet','Jose Panganiban','Labo','Mercedes',
+  'Paracale','San Lorenzo Ruiz','San Vicente','Santa Elena','Talisay','Vinzons',
+  ],
+'Camarines Sur' : [
+  'Baao','Balatan','Bato','Bombon','Buhi','Bula',
+  'Cabusao','Calabanga','Camaligan','Canaman','Caramoan','Del Gallego',
+  'Gainza','Garchitorena','Goa','Iriga','Lagonoy','Libmanan',
+  'Lupi','Magarao','Milaor','Minalabac','Nabua','Naga',
+  'Ocampo','Pamplona','Pasacao','Pili','Presentacion','Ragay',
+  'Sagñay','San Fernando','San Jose','Sipocot','Siruma','Tigaon',
+  'Tinambac'
+  ],
+'Camiguin' : [
+  'Catarman','Guinsiliban','Mahinog','Mambajao','Sagay'
+  ],
+'Capiz' : [
+  'Cuartero','Dao','Dumalag','Dumarao','Ivisan','Jamindan',
+  'Maayon','Mambusao','Panay','Panitan','Pilar','Pontevedra',
+  'President Roxas','Roxas City','Sapian','Sigma', 'Tapaz'
+  ],
+'Catanduanes' : [
+  'Bagamanoc','Baras','Bato','Caramoran','Gigmoto','Pandan',
+  'Panganiban','San Andres','San Miguel','Viga','Virac'
+  ],
+'Cavite' : [
+  'Alfonso','Amadeo','Bacoor','Carmona','Cavite City','Dasmariñas',
+  'General Emilio Aguinaldo','General Mariano Alvarez','General Trias','Imus','Indang','Kawit',
+  'Magallanes','Maragondon','Mendez','Naic','Noveleta','Rosario',
+  'Silang','Tagaytay','Tanza','Ternate','Trece Martires'
+  ],
+'Cebu' : [
+  'Alcantara','Alcoy','Alegria','Aloguinsan','Argao','Asturias',
+  'Badian','Balamban','Bantayan','Barili','Bogo','Boljoon',
+  'Borbon','Carcar','Carmen','Catmon','Cebu City','Compostela',
+  'Consolacion','Cordova','Daanbantayan','Dalaguete','Danao','Dumanjug',
+  'Ginatilan','Lapu-Lapu','Liloan','Madridejos','Malabuyoc','Mandaue',
+  'Medellin','Minglanilla','Moalboal','Naga','Oslob','Pilar',
+  'Pinamungajan','Poro','Ronda','Samboan','San Fernando','San Francisco',
+  'San Remigio','Santa Fe','Santander','Sibonga','Sogod','Tabogon',
+  'Tabuelan','Talisay','Toledo','Tuburan','Tudela'
+  ],
+'Compostela Valley' : [
+  'Compostela','Laak','Mabini','Maco','Maragusan','Mawab',
+  'Monkayo','Montevista','Nabunturan','New Bataan','Pantukan'
+  ],
+'Cotabato' : [
+  'Alamada','Aleosan','Antipas','Arakan','Banisilan','Carmen',
+  'Kabacan','Kidapawan','Libungan','M\'lang','Magpet','Makilala',
+  'Matalam','Midsayap','Pigcawayan','Pikit','President Roxas','Tulunan'
+  ],
+'Davao del Norte' : [
+  'Asuncion','Braulio E. Dujali','Carmen','Kapalong','New Corella','Panabo',
+  'Samal','San Isidro','Santo Tomas','Tagum','Talaingod'
+  ],	
+'Davao del Sur' : [
+  'Bansalan','Davao City','Digos','Hagonoy','Kiblawan','Magsaysay',
+  'Malalag','Matanao','Padada','Santa Cruz','Sulop'
+  ],
+'Davao Oriental' : [
+  'Baganga','Banaybanay','Boston','Caraga','Cateel','Governor Generoso',
+  'Lupon','Manay','Mati','San Isidro','Tarragona'
+  ],	
+'Dinagat Islands' : [
+  'Basilisa','Cagdianao','Dinagat','Libjo','Loreto','San Jose',
+  'Tubajon'
+  ],
+'Eastern Samar' : [
+  'Arteche','Balangiga','Balangkayan','Borongan','Can-avid','Dolores',
+  'General MacArthur','Giporlos','Guiuan','Hernani','Jipapad','Lawaan',
+  'Llorente','Maslog','Maydolong','Mercedes','Oras','Quinapondan',
+  'Salcedo','San Julian','San Policarpo','Sulat','Taft'
+  ],	
+'Guimaras' : [
+  'Buenavista','Jordan','Nueva Valencia','San Lorenzo','Sibunag'
+  ],
+'Ifugao' : [
+  'Aguinaldo','Alfonso Lista','Asipulo','Banaue','Hingyon','Hungduan',
+  'Kiangan','Lagawe','Lamut','Mayoyao','Tinoc'
+  ],	
+'Ilocos Norte' : [
+  'Adams','Bacarra','Badoc','Bangui','Banna','Batac',
+  'Burgos','Carasi','Currimao','Dingras','Dumalneg','Laoag',
+  'Marcos','Nueva Era','Pagudpud','Paoay','Pasuquin','Piddig',
+  'Pinili','San Nicolas','Sarrat','Solsona','Vintar'
+  ],
+'Ilocos Sur' : [
+  'Alilem','Banayoyo','Bantay','Burgos','Cabugao','Candon',
+  'Caoayan','Cervantes','Galimuyod','Gregorio del Pilar','Lidlidda','Magsingal',
+  'Nagbukel','Narvacan','Quirino','Salcedo','San Emilio','San Esteban',
+  'San Ildefonso','San Juan','San Vicente','Santa','Santa Catalina','Santa Cruz',
+  'Santa Lucia','Santa Maria','Santiago','Santo Domingo','Sigay','Sinait',
+  'Sugpon','Suyo','Tagudin','Vigan'
+  ],
+'Iloilo' : [
+  'Ajuy','Alimodian','Anilao','Badiangan','Balasan','Banate',
+  'Barotac Nuevo','Barotac Viejo','Batad','Bingawan','Cabatuan','Calinog',
+  'Carles','Concepcion','Dingle','Dueñas','Dumangas','Estancia',
+  'Guimbal','Igbaras','Iloilo City','Janiuay','Lambunao','Leganes',
+  'Lemery','Leon','Maasin','Miagao','Mina','New Lucena',
+  'Oton','Passi','Pavia','Pototan','San Dionisio','San Enrique',
+  'San Joaquin','San Miguel','San Rafael','Santa Barbara','Sara','Tigbauan',
+  'Tubungan','Zarraga'
+  ],
+'Isabela' : [
+  'Alicia','Angadanan','Aurora','Benito Soliven','Burgos','Cabagan',
+  'Cabatuan','Cauayan','Cordon','Delfin Albano','Dinapigue','Divilacan',
+  'Echague','Gamu','Ilagan','Jones','Luna','Maconacon',
+  'Mallig','Naguilian','Palanan','Quezon','Quirino','Ramon',
+  'Reina Mercedes','Roxas','San Agustin','San Guillermo','San Isidro','San Manuel',
+  'San Mariano','San Mateo','San Pablo','Santa Maria','Santiago','Santo Tomas',
+  'Tumauini'
+  ],
+'Kalinga' : [
+  'Balbalan','Lubuagan','Pasil','Pinukpuk','Rizal','Tabuk',
+  'Tanudan','Tinglayan'
+  ],
+'La Union' : [
+  'Agoo','Aringay','Bacnotan','Bagulin','Balaoan','Bangar',
+  'Bauang','Burgos','Caba','Luna','Naguilian','Pugo',
+  'Rosario','San Fernando','San Gabriel','San Juan','Santo Tomas','Santol',
+  'Sudipen','Tubao'
+  ],
+'Laguna' : [
+  'Alaminos','Bay','Biñan','Cabuyao','Calamba','Calauan',
+  'Cavinti','Famy','Kalayaan','Liliw','Los Baños','Luisiana',
+  'Lumban','Mabitac','Magdalena','Majayjay','Nagcarlan','Paete',
+  'Pagsanjan','Pakil','Pangil','Pila','Rizal','San Pablo','San Pedro',
+  'Santa Cruz','Santa Maria','Santa Rosa','Siniloan','Victoria'
+  ],
+'Lanao del Norte' : [
+  'Bacolod','Baloi','Baroy','Iligan','Kapatagan','Kauswagan',
+  'Kolambugan','Lala','Linamon','Magsaysay','Maigo','Matungao',
+  'Munai','Nunungan','Pantao Ragat','Pantar','Poona Piagapo','Salvador',
+  'Sapad','Sultan Naga Dimaporo','Tagoloan','Tangcal','Tubod'
+  ],
+'Lanao del Sur' : [
+  'Amai Manabilang','Bacolod-Kalawi','Balabagan','Balindong','Bayang','Binidayan',
+  'Buadiposo-Buntong','Bubong','Butig','Calanogas','Ditsaan-Ramain','Ganassi',
+  'Kapai','Kapatagan','Lumba-Bayabao','Lumbaca-Unayan','Lumbatan','Lumbayanague',
+  'Madalum','Madamba','Maguing','Malabang','Marantao','Marawi',
+  'Marogong','Masiu','Mulondo','Pagayawan','Piagapo','Picong',
+  'Poona Bayabao','Pualas','Saguiaran','Sultan Dumalondong','Tagoloan II','Tamparan',
+  'Taraka','Tubaran','Tugaya','Wao'
+  ],
+'Leyte' : [
+  'Abuyog','Alangalang','Albuera','Babatngon','Barugo','Bato',
+  'Baybay','Burauen','Calubian','Capoocan','Carigara','Dagami',
+  'Dulag','Hilongos','Hindang','Inopacan','Isabel','Jaro',
+  'Javier','Julita','Kananga','La Paz','Leyte','MacArthur',
+  'Mahaplag','Matag-ob','Matalom','Mayorga','Merida','Ormoc',
+  'Palo','Palompon','Pastrana','San Isidro','San Miguel','Santa Fe',
+  'Tabango','Tabontabon','Tacloban','Tanauan','Tolosa','Tunga',
+  'Villaba'
+  ],
+'Maguindanao' : [
+  'Barira','Buldon','Datu Anggal Midtimbang','Datu Blah T. Sinsuat','Datu Odin Sinsuat','Kabuntalan',
+  'Matanog','Northern Kabuntalan','Parang','Sultan Kudarat','Sultan Mastura','Sultan Sumagka',
+  'Upi'
+  ],
+'Marinduque' : [
+  'Boac','Buenavista','Gasan','Mogpog','Santa Cruz','Torrijos'
+  ],	
+'Masbate' : [
+  'Aroroy','Baleno','Balud','Batuan','Cataingan','Cawayan',
+  'Claveria','Dimasalang','Esperanza','Mandaon','Masbate City','Milagros',
+  'Mobo','Monreal','Palanas','Pio V. Corpuz','Placer','San Fernando',
+  'San Jacinto','San Pascual','Uson'	
+  ],
+'Metro Manila' : [
+  'Caloocan','Las Piñas','Makati','Malabon','Mandaluyong','Manila',
+  'Marikina','Muntinlupa','Navotas','Parañaque','Pasay','Pasig',
+  'Pateros','Quezon City','San Juan','Taguig','Valenzuela'
+  ],
+'Misamis Occidental' : [
+  'Aloran','Baliangao','Bonifacio','Calamba','Clarin','Concepcion',
+  'Don Victoriano Chiongbian','Jimenez','Lopez Jaena','Oroquieta','Ozamiz','Panaon',
+  'Plaridel','Sapang Dalaga','Sinacaban','Tangub','Tudela'
+  ],
+'Misamis Oriental' : [
+  'Alubijid','Balingasag','Balingoan','Binuangan','Cagayan de Oro','Claveria',
+  'El Salvador','Gingoog','Gitagum','Initao','Jasaan','Kinoguitan',
+  'Lagonglong','Laguindingan','Libertad','Lugait','Magsaysay','Manticao',
+  'Medina','Naawan','Opol','Salay','Sugbongcogon','Tagoloan',	
+  'Talisayan','Villanueva'
+  ],
+'Mountain Province' : [
+  'Barlig','Bauko','Besao','Bontoc','Natonin','Paracelis',
+  'Sabangan','Sadanga','Sagada','Tadian'
+  ],	
+'Negros Occidental' : [
+  'Bacolod','Bago','Binalbagan','Cadiz','Calatrava','Candoni',
+  'Cauayan','Enrique B. Magalona','Escalante','Himamaylan','Hinigaran','Hinoba-an',
+  'Ilog','Isabela','Kabankalan','La Carlota','La Castellana','Manapla',
+  'Moises Padilla','Murcia','Pontevedra','Pulupandan','Sagay','Salvador Benedicto',
+  'San Carlos','San Enrique','Silay','Sipalay','Talisay','Toboso',
+  'Valladolid','Victorias'
+  ],		
+'Negros Oriental' : [
+  'Amlan','Ayungon','Bacong','Bais','Basay','Bayawan',
+  'Bindoy','Canlaon','Dauin','Dumaguete','Guihulngan','Jimalalud',
+  'La Libertad','Mabinay','Manjuyod','Pamplona','San Jose','Santa Catalina',
+  'Siaton','Sibulan','Tanjay','Tayasan','Valencia','Vallehermoso',
+  'Zamboanguita'
+  ],
+'Northern Samar' : [
+  'Allen','Biri','Bobon','Capul','Catarman','Catubig',
+  'Gamay','Laoang','Lapinig','Las Navas','Lavezares','Lope de Vega',
+  'Mapanas','Mondragon','Palapag','Pambujan','Rosario','San Antonio',
+  'San Isidro','San Jose','San Roque','San Vicente','Silvino Lobos','Victoria'
+  ],	
+'Nueva Ecija' : [
+  'Aliaga','Bongabon','Cabanatuan','Cabiao','Carranglan','Cuyapo',
+  'Gabaldon','Gapan','General Mamerto Natividad','General Tinio','Guimba','Jaen',
+  'Laur','Licab','Llanera','Lupao','Muñoz','Nampicuan',
+  'Palayan','Pantabangan','Peñaranda','Quezon','Rizal','San Antonio',
+  'San Isidro','Cabaritan','San Leonardo','Santa Rosa','Santo Domingo','Talavera',
+  'Talugtug','Zaragoza'
+  ],
+'Nueva Vizcaya' : [
+  'Alfonso Castañeda','Ambaguio','Aritao','Bagabag','Bambang','Bayombong',
+  'Diadi','Dupax del Norte','Dupax del Sur','Kasibu','Kayapa','Quezon',
+  'Santa Fe','Solano','Villaverde'
+  ],
+'Occidental Mindoro' : [
+  'Abra de Ilog','Calintaan','Looc','Lubang','Magsaysay','Mamburao',
+  'Paluan','Rizal','Sablayan','San Jose','Santa Cruz'
+  ],
+'Oriental Mindoro' : [
+  'Baco','Bansud','Bongabong','Bulalacao','Calapan','Gloria',
+  'Mansalay','Naujan','Pinamalayan','Pola','Puerto Galera','Roxas',
+  'San Teodoro','Socorro','Victoria'
+  ],
+'Palawan' : [
+  'Aborlan','Agutaya','Araceli','Balabac','Bataraza','Brooke\'s Point',
+  'Busuanga','Cagayancillo','Coron','Culion','Cuyo','Dumaran',
+  'El Nido','Kalayaan','Linapacan','Magsaysay','Narra','Puerto Princesa',		
+  'Quezon','Rizal','Roxas','San Vicente','Sofronio Española','Taytay'
+  ],	
+'Pampanga' : [
+  'Angeles','Apalit','Arayat','Bacolor','Candaba','Floridablanca',
+  'Guagua','Lubao','Mabalacat','Macabebe','Magalang','Masantol',
+  'Mexico','Minalin','Porac','San Fernando','San Luis','San Simon',		
+  'Santa Ana','Santa Rita','Santo Tomas','Sasmuan'
+  ],
+'Pangasinan' : [
+  'Agno','Aguilar','Alaminos','Alcala','Anda','Asingan',
+  'Balungao','Bani','Basista','Bautista','Bayambang','Binalonan',
+  'Binmaley','Bolinao','Bugallon','Burgos','Calasiao','Dasol',		
+  'Dagupan','Dasol','Infanta','Labrador','Laoac','Lingayen',
+  'Mabini','Malasiqui','Manaoag','Mangaldan','Mangatarem','Mapandan',
+  'Natividad','Pozorrubio','Rosales','San Carlos','San Fabian','San Jacinto',	
+  'San Manuel','San Nicolas','San Quintin','Santa Barbara','Santa Maria','Santo Tomas',
+  'Sison','Sual','Tayug','Umingan','Urbiztondo','Urdaneta',
+  'Villasis'
+  ],
+'Quezon' : [
+  'Agdangan','Alabat','Atimonan','Buenavista','Burdeos','Calauag',
+  'Candelaria','Catanauan','Dolores','General Luna','General Nakar','Guinayangan',
+  'Gumaca','Infanta','Jomalig','Lopez','Lucban','Lucena',		
+  'Macalelon','Mauban','Mulanay','Padre Burgos','Pagbilao','Panukulan',
+  'Patnanungan','Perez','Pitogo','Plaridel','Polillo','Quezon',
+  'Real','Sampaloc','San Andres','San Antonio','San Francisco','San Narciso',	
+  'Sariaya','Tagkawayan','Tayabas','Tiaong','Unisan'
+  ],		
+'Quirino' : [
+  'Aglipay','Cabarroguis','Diffun','Maddela','Nagtipunan','Saguday'
+  ],
+'Rizal' : [
+  'Angono','Antipolo','Baras','Binangonan','Cainta','Cardona',
+  'Jalajala','Morong','Pililla','Rodriguez','San Mateo','Tanay',
+  'Taytay','Teresa'		
+  ],
+'Romblon' : [
+  'Alcantara','Banton','Cajidiocan','Calatrava','Concepcion','Corcuera',
+  'Ferrol','Looc','Magdiwang','Odiongan','Romblon','San Agustin',
+  'San Andres','San Fernando','San Jose','Santa Fe','Santa Maria'		
+  ],
+'Samar' : [
+  'Almagro','Basey','Calbayog','Calbiga','Catbalogan','Daram',
+  'Gandara','Hinabangan','Jiabong','Marabut','Matuguinao','Motiong',
+  'Pagsanghan','Paranas','Pinabacdao','San Jorge','San Jose de Buan','San Sebastian',		
+  'Santa Margarita','Santa Rita','Santo Niño','Tagapul-an','Talalora','Tarangnan',
+  'Villareal','Zumarraga'
+  ],
+'Sarangani' : [
+  'Alabel','Glan','Kiamba','Maasim','Maitum','Malapatan',
+  'Malungon'	
+  ],
+'Shariff Kabunsuan' : [
+  'Barira','Buldon','Datu Blah T. Sinsuat','Datu Odin Sinsuat','Kabuntalan','Matanog',
+  'Northern Kabuntalan','Parang','Sultan Kudarat','Sultan Mastura','Upi'		
+  ],		
+'Siquijor' : [
+  'Enrique Villanueva','Larena','Lazi','Maria','San Juan','Siquijor'
+  ],
+'Sorsogon' : [
+  'Barcelona','Bulan','Bulusan','Casiguran','Castilla','Donsol',
+  'Gubat','Irosin','Juban','Magallanes','Matnog','Pilar',
+  'Prieto Diaz','Santa Magdalena','Sorsogon City'
+  ],	
+'South Cotabato' : [
+  'Banga','General Santos','Koronadal','Lake Sebu','Norala','Polomolok',
+  'Santo Niño','Surallah','T\'Boli','Tampakan','Tantangan','Tupi'
+  ],
+'Southern Leyte' : [
+  'Anahawan','Bontoc','Hinunangan','Hinundayan','Libagon','Liloan',
+  'Limasawa','Maasin','Macrohon','Malitbog','Padre Burgos','Pintuyan',
+  'Saint Bernard','San Francisco','San Juan','San Ricardo','Silago','Sogod',		
+  'Tomas Oppus'
+  ],
+'Sultan Kudarat' : [
+  'Bagumbayan','Columbio','Esperanza','Isulan','Kalamansig','Lambayong',
+  'Lebak','Lutayan','Palimbang','President Quirino','Senator Ninoy Aquino','Tacurong'
+  ],
+'Sulu' : [
+  'Banguingui','Hadji Panglima Tahil','Indanan','Jolo','Kalingalan Caluang','Lugus',
+  'Luuk','Maimbung','Old Panamao','Omar','Pandami','Panglima Estino',
+  'Pangutaran','Parang','Pata','Patikul','Siasi','Talipao',		
+  'Tapul'
+  ],
+'Surigao del Norte' : [
+  'Alegria','Bacuag','Burgos','Claver','Dapa','Del Carmen',
+  'General Luna','Gigaquit','Mainit','Malimono','Pilar','Placer',
+  'San Benito','San Francisco','San Isidro','Santa Monica','Sison','Socorro',		
+  'Surigao City','Tagana-an','Tubod'
+  ],	
+'Surigao del Sur' : [
+  'Barobo','Bayabas','Bislig','Cagwait','Cantilan','Carmen',
+  'Carrascal','Cortes','Hinatuan','Lanuza','Lianga','Lingig',
+  'Madrid','Marihatag','San Agustin','San Miguel','Tagbina','Tago',		
+  'Tandag'
+  ],		
+'Tarlac' : [
+  'Anao','Bamban','Camiling','Capas','Concepcion','Gerona',
+  'La Paz','Mayantoc','Moncada','Paniqui','Pura','Ramos',
+  'San Clemente','San Jose','San Manuel','Santa Ignacia','Tarlac City','Victoria'
+  ],
+'Tawi-Tawi' : [
+  'Bongao','Languyan','Mapun','Panglima Sugala','Sapa-Sapa','Sibutu',
+  'Simunul','Sitangkai','South Ubian','Tandubas','Turtle Islands'
+  ],
+'Zambales' : [
+  'Botolan','Cabangan','Candelaria','Iba','Masinloc','Olongapo',
+  'Palauig','San Antonio','San Felipe','San Marcelino','San Narciso',
+  'Santa Cruz','Subic'		
+  ],
+'Zamboanga del Norte' : [
+  'Baliguian','Dapitan','Dipolog','Godod','Gutalac','Jose Dalman',
+  'Kalawit','Katipunan','La Libertad','Labason','Leon B. Postigo','Liloy',
+  'Manukan','Mutia','Piñan','Polanco','President Manuel A. Roxas','Rizal',		
+  'Salug','Sergio Osmeña Sr.','Siayan','Sibuco','Sibutad','Sindangan',
+  'Siocon','Sirawai','Tampilisan'
+  ],
+'Zamboanga del Sur' : [
+  'Aurora','Bayog','Dimataling','Dinas','Dumalinao','Dumingag',
+  'Guipos','Josefina','Kumalarang','Labangan','Lakewood','Lapuyan',
+  'Mahayag','Margosatubig','Midsalip','Molave','Pagadian','Pitogo',		
+  'Ramon Magsaysay','San Miguel','San Pablo','Sominot','Tabina','Tambulig',
+  'Tigbao','Tukuran','Vincenzo A. Sagun','Zamboanga City'
+  ],
+'Zamboanga Sibugay' : [
+  'Alicia','Buug','Diplahan','Imelda','Ipil','Kabasalan',
+  'Mabuhay','Malangas','Naga','Olutanga','Payao','Roseller Lim',
+  'Siay','Talusan','Titay','Tungawan'
+  ],			
+}
+
+var City = function() {
+
+this.p = [],this.c = [],this.a = [],this.e = {};
+window.onerror = function() { return true; }
+
+this.getProvinces = function() {
+  for(let province in cities) {
+    this.p.push(province);
+  }
+  return this.p;
+}
+this.getCities = function(province) {
+  if(province.length==0) {
+    console.error('Please input province name');
+    return;
+  }
+  for(let i=0;i<=cities[province].length-1;i++) {
+    this.c.push(cities[province][i]);
+  }
+  return this.c;
+}
+this.getAllCities = function() {
+  for(let i in cities) {
+    for(let j=0;j<=cities[i].length-1;j++) {
+      this.a.push(cities[i][j]);
+    }
+  }
+  this.a.sort();
+  return this.a;
+}
+this.showProvinces = function(element) {
+  var str = '<option selected disabled>{{user.personal_information.res_prov}}</option>';
+  for(let i in this.getProvinces()) {
+    str+='<option>'+this.p[i]+'</option>';
+  }
+  this.p = [];		
+  document.querySelector(element).innerHTML = '';
+  document.querySelector(element).innerHTML = str;
+  this.e = element;
+  return this;
+}
+
+this.showProvinces1 = function(element) {
+  var str = '<option selected disabled>{{user.personal_information.per_prov}}</option>';
+  for(let i in this.getProvinces()) {
+    str+='<option>'+this.p[i]+'</option>';
+  }
+  this.p = [];		
+  document.querySelector(element).innerHTML = '';
+  document.querySelector(element).innerHTML = str;
+  this.e = element;
+  return this;
+}
+this.showCities = function(province,element) {
+  var str = '<option selected disabled>{{user.personal_information.res_city}}</option>';
+  var elem = '';
+  if((province.indexOf(".")!==-1 || province.indexOf("#")!==-1)) {
+    elem = province;
+  }
+  else {
+    for(let i in this.getCities(province)) {
+      str+='<option>'+this.c[i]+'</option>';
+    }
+    elem = element;
+  }
+  this.c = [];
+  document.querySelector(elem).innerHTML = '';
+  document.querySelector(elem).innerHTML = str;
+  document.querySelector(this.e).onchange = function() {		
+    var Obj = new City();
+    Obj.showCities(this.value,elem);
+  }
+  return this;
+}
+this.showCities1 = function(province,element) {
+  var str = '<option selected disabled>{{user.personal_information.per_city}}</option>';
+  var elem = '';
+  if((province.indexOf(".")!==-1 || province.indexOf("#")!==-1)) {
+    elem = province;
+  }
+  else {
+    for(let i in this.getCities(province)) {
+      str+='<option>'+this.c[i]+'</option>';
+    }
+    elem = element;
+  }
+  this.c = [];
+  document.querySelector(elem).innerHTML = '';
+  document.querySelector(elem).innerHTML = str;
+  document.querySelector(this.e).onchange = function() {		
+    var Obj = new City();
+    Obj.showCities(this.value,elem);
+  }
+  return this;
+}
+}
+</script>	
+<script>	
+window.onload = function() {	
+
+// ---------------
+// basic usage
+// ---------------
+var $ = new City();
+$.showProvinces("#province");
+$.showCities("#city");
+
+$.showProvinces1("#province1");
+$.showCities1("#city1");
+
+// ------------------
+// additional methods 
+// -------------------
+
+// will return all provinces 
+console.log($.getProvinces());
+
+// will return all cities 
+console.log($.getAllCities());
+
+// will return all cities under specific province (e.g Batangas)
+console.log($.getCities("Batangas"));	
+
+}
+</script>
+
+

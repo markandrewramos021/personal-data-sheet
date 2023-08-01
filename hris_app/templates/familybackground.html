@@ -1,0 +1,641 @@
+{% load socialaccount %}
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <title>Employee Dashboard</title>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href = "{% static 'img/csdo.png' %}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.7/dist/umd/popper.min.js" integrity="sha384-zYPOMqeu1DAVkHiLqWBUTcbYfZ8osu1Nd6Z89ify25QV9guujx43ITvfi12/QExE" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js" integrity="sha384-Y4oOpwW3duJdCWv5ly8SCFYWqFDsfob/3GkgExXKV4idmbt98QcxXYs9UoXAB7BZ" crossorigin="anonymous"></script>
+  <body>
+    <nav class="navbar navbar-expand-sm">
+      <div class="container-fluid">
+            <a class="navbar-brand" >
+                <img src="{% static 'img/csdo.png' %}" style="width:75px;" class="rounded-pill">
+            </a>
+        <h2>{{user.first_name}}</h2>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavbar">
+          <ul class="navbar-nav ms-auto">
+            <div class="dropdown">
+              <a class="btn btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-right: 15px; background-color: #078a1d">
+                Create PDF
+              </a>
+            
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="{% url 'page1' %}" target="_blank" rel="noopener noreferrer">Page 1</a></li>
+                <li><a class="dropdown-item" href="{% url 'page2' %}" target="_blank" rel="noopener noreferrer">Page 2</a></li>
+                <li><a class="dropdown-item" href="{% url 'page3' %}" target="_blank" rel="noopener noreferrer">Page 3</a></li>
+                <li><a class="dropdown-item" href="{% url 'page4' %}" target="_blank" rel="noopener noreferrer">Page 4</a></li>
+              </ul>
+            </div> 
+            <a class="btn btn-warning" style="font-size: 15px; margin-right: 15px;" href="{% url 'editprofile' pk=request.user.id %}">Edit Profile</a>
+            <a class="btn btn-danger" onclick="return confirm('Do you want to log out?')" style="font-size: 15px; margin-right: 10px;" href="{% url 'logout' %}">Log out</a>
+          </ul>
+        </div> 
+    </div>
+    </nav>
+    
+    <br>
+    <div class="title">
+      <h1>CSC Form 212 (Revised 2017) - Personal Data Sheet</h1></div>
+    <br>
+    <div class="form-btn d-flex justify-content-center">
+      <div>
+        {% csrf_token %}
+        {% if not pic %}
+          <img src="{{ user.socialaccount_set.all.0.get_avatar_url }}" class="profile"/>
+        {% else %}
+          <img src="{{request.user.personal.image.url}}" class="profile">
+        {% endif %}
+      </div>
+      <div class="buttons-1 btn-group" role="group" aria-label="Basic mixed styles example">
+        <a href="{% url 'personalinfo' pk=request.user.id %}"><button type="button" class="btn btn-primary" id="showFormBtn1">Personal Information</button></a>
+        <a href="{% url 'userdashboard' pk=request.user.id %}"><button type="button" class="btn btn-primary" id="showFormBtn2">Family Background</button></a>
+        <a href="{% url 'educationalbackground' pk=request.user.id %}"><button type="button" class="btn btn-primary" id="showFormBtn3">Educational Background</button></a>
+        <a href="{% url 'civilservice' pk=request.user.id  %}"><button type="button" class="btn btn-primary" id="showFormBtn4">Civil Service Eligibility</button></a>
+        <a href="{% url 'workexperience' pk=request.user.id %}"><button type="button" class="btn btn-primary" id="showFormBtn5">Work Experience</button></a>
+        <a href="{% url 'voluntarywork' pk=request.user.id %}"><button type="button" class="btn btn-primary" id="showFormBtn6">Voluntary Work</button></a>
+        <a href="{% url 'learning' pk=request.user.id %}"><button type="button" class="btn btn-primary" id="showFormBtn7">Learning & Development</button></a>
+        <a href="{% url 'otherinfo' pk=request.user.id %}"><button type="button" class="btn btn-primary" id="showFormBtn8">Other Information</button></a>
+        <a href="{% url 'miscellaneousinfo' pk=request.user.id %}"><button type="button" class="btn btn-primary" id="showFormBtn9">Miscellaneous Information</button></a>
+      </div>
+    </div>
+    <br>
+      <!-- family-background -->
+      <div class="personal-info" >
+        <form action="" method="POST">
+          {% csrf_token %}
+          <legend>Family Background</legend>
+          <div class="row">
+            <div class="col">
+              <label>Spouse's Surname:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.spouse_surname }}" name="spouse_surname" id="spouse_surname" required >
+            </div>
+            <div class="col">
+              <label>First Name:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.spouse_firstname }}" name="spouse_firstname" id="spouse_firstname" >
+            </div>
+            <div class="col">
+              <label>Middle Name:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.spouse_middlename }}" name="spouse_middlename" id="spouse_middlename">
+            </div>
+            <div class="col-2">
+              <label>Spouse's Extension:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.spouse_extension }}" name="spouse_extension" id="spouse_extension">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col">
+              <label>Occupation:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.occupation }}" name="occupation" id="occupation">
+            </div>
+            <div class="col">
+              <label>Employee/Business Name:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.employee_name }}" name="employee_name" id="employee_name">
+            </div>
+            <div class="col">
+              <label>Business Address:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.business_address }}" name="business_address" id="business_address">
+            </div>
+            <div class="col">
+              <label>Telephone No.:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.family_telno }}" name="family_telno" id="family_telno">
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col">
+              <label>Father's Surname:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.father_surname }}" name="father_surname" id="father_surname" required>
+            </div>
+            <div class="col">
+              <label>First Name:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.father_firstname }}" name="father_firstname" id="father_firstname">
+            </div>
+            <div class="col">
+              <label>Middle Name:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.father_middlename }}" name="father_middlename" id="father_middlename">
+            </div>
+            <div class="col-2">
+              <label>Father's Extension:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.father_extension }}" name="father_extension" id="father_extension">
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col">
+              <label>Mother's Surname:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.mother_surname }}" name="mother_surname" id="mother_surname" required>
+            </div>
+            <div class="col">
+              <label>First Name:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.mother_firstname }}" name="mother_firstname" id="mother_firstname">
+            </div>
+            <div class="col">
+              <label>Middle Name:</label>
+              <input type="text" class="form-control" value="{{ user.family_background.mother_middlename }}" name="mother_middlename" id="mother_middlename" >
+            </div>
+          </div>
+          <hr>
+
+          <!-- child 1 -->
+
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label>Name of Children (Write full name and list all):</label>
+              <input type="text" name="child1" id="child1" value="{{user.family_background.child1}}" class="input1 form-control">
+            </div>
+            <div class="col" id="input-container" >
+              <label>Date of Birth:</label>
+              <input type="date" name="date_birth1" id="date_birth1"  class="input1 form-control" value="{{request.user.family_background.date_birth1 | date:'Y-m-d'}}">
+            </div>
+          </div>
+          
+          <!-- child 2 -->
+          
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" name="child2" id="child2" class="input1 form-control" value="{{user.family_background.child2}}">
+            </div>
+            <div class="col" id="input-container" >
+              <label>Date of Birth:</label>
+              <input type="date" name="date_birth2" id="date_birth2"  class="input1 form-control" value="{{request.user.family_background.date_birth2 | date:'Y-m-d'}}">
+            </div>
+          </div>
+
+          <!-- child 3 -->
+          
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" name="child3" id="child3" class="input1 form-control" value="{{user.family_background.child3}}">
+            </div>
+            <div class="col" id="input-container" >
+              <label>Date of Birth:</label>
+              <input type="date" name="date_birth3" id="date_birth3"  class="input1 form-control" value="{{request.user.family_background.date_birth3 | date:'Y-m-d'}}">
+            </div>
+          </div>
+
+          <!-- child 4 -->
+          
+          <div class="row">
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" name="child4" id="child4" class="input1 form-control" value="{{user.family_background.child4}}">
+            </div>
+            <div class="col" id="input-container" >
+              <label>Date of Birth:</label>
+              <input type="date" name="date_birth4" id="date_birth4"  class="input1 form-control" value="{{request.user.family_background.date_birth4 | date:'Y-m-d'}}">
+            </div>
+          </div>
+
+          <!-- child 5 -->
+          
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" name="child5" id="child5" class="input1 form-control" value="{{user.family_background.child5}}">
+            </div>
+            <div class="col" id="input-container" >
+              <label>Date of Birth:</label>
+              <input type="date" name="date_birth5" id="date_birth5"  class="input1 form-control" value="{{request.user.family_background.date_birth5 | date:'Y-m-d'}}">
+            </div>
+          </div>
+
+          <!-- child 6 -->
+          
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" name="child6" id="child6" class="input1 form-control" value="{{user.family_background.child6}}">
+            </div>
+            <div class="col" id="input-container" >
+              <label>Date of Birth:</label>
+              <input type="date" name="date_birth6" id="date_birth6"  class="input1 form-control" value="{{request.user.family_background.date_birth6 | date:'Y-m-d'}}">
+            </div>
+          </div>
+
+          <!-- child 7 -->
+          
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" name="child7" id="child7" class="input1 form-control" value="{{user.family_background.child7}}">
+            </div>
+            <div class="col" id="input-container" >
+              <label>Date of Birth:</label>
+              <input type="date" name="date_birth7" id="date_birth7"  class="input1 form-control" value="{{request.user.family_background.date_birth7 | date:'Y-m-d'}}">
+            </div>
+          </div>
+
+          <!-- child 8 -->
+          
+          <div class="row" >
+            <div class="col" id="input-container">
+              <label></label>
+              <input type="text" name="child8" id="child8" class="input1 form-control" value="{{user.family_background.child8}}">
+            </div>
+            <div class="col" id="input-container" >
+              <label>Date of Birth:</label>
+              <input type="date" name="date_birth8" id="date_birth8"  class="input1 form-control" value="{{request.user.family_background.date_birth8 | date:'Y-m-d'}}">
+            </div>
+          </div>
+
+          <!-- child 9 -->
+          
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" name="child9" id="child9" class="input1 form-control" value="{{user.family_background.child9}}">
+            </div>
+            <div class="col" id="input-container" >
+              <label>Date of Birth:</label>
+              <input type="date" name="date_birth9" id="date_birth9"  class="input1 form-control" value="{{request.user.family_background.date_birth9 | date:'Y-m-d'}}">
+            </div>
+          </div>
+
+          <!-- child 10 -->
+          
+          <div class="row" >
+            <div class="col" id="input-container" >
+              <label></label>
+              <input type="text" name="child10" id="child10" class="input1 form-control" value="{{user.family_background.child10}}">
+            </div>
+            <div class="col" id="input-container" >
+              <label>Date of Birth:</label>
+              <input type="date" name="date_birth10" id="date_birth10"  class="input1 form-control" value="{{request.user.family_background.date_birth10 | date:'Y-m-d'}}">
+            </div>
+          </div>
+          <br>
+          <div class="save-btn">
+            <button type="submit" name="save" id="save" class="btn btn-secondary " >Save</button>
+          </div>
+        </form>
+
+      </div>
+  </body>
+
+<input type="checkbox" id="helpCheckBox">
+<label class="help-container" for="helpCheckBox">
+  <label class="button helpIconButton hoverableButton" for="helpCheckBox" data-toggle="tooltip"
+    data-bs-placement="left" data-bs-offset="0,10" title="Help">
+    <i>Help?</i>
+  </label>
+  <ul class="helpOptions">
+    <li>
+      <span class="btn-label hoverableButton" data-bs-toggle="modal" data-bs-target="#loginQ1">How to use the system?</span>
+    </li>
+    <li><span class="btn-label hoverableButton" data-bs-toggle="modal" data-bs-target="#loginQ2">How to export PDF?</span>
+    </li>
+    </li>
+    <li><span class="btn-label hoverableButton" data-bs-toggle="modal" data-bs-target="#loginQ3">How to edit profile?</span>
+    </li>
+  </ul>
+</label>
+<div class="modal fade" id="loginQ1" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header text-center d-flex justify-content-start">
+      </div>
+      <div class="modal-body" style="padding:2% 10% 2% 10%;">
+        <div>
+          <img class="img-fluid" alt="Responsive image" src="{% static 'img/use_system.png' %}">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" style="background-color: #EF3A25; color: white;" data-bs-dismiss="modal"
+          aria-label="Close"> Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="loginQ2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header text-center d-flex justify-content-start">
+      </div>
+      <div class="modal-body" style="padding:2% 10% 2% 10%;">
+        <div>
+          <img class="img-fluid" alt="Responsive image" src="{% static 'img/export_pdf.png' %}">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" style="background-color: #EF3A25; color: white;" data-bs-dismiss="modal"
+          aria-label="Close"> Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="loginQ3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl">
+    <div class="modal-content">
+      <div class="modal-header text-center d-flex justify-content-start">
+      </div>
+      <div class="modal-body" style="padding:2% 10% 2% 10%;">
+        <div>
+          <img class="img-fluid" alt="Responsive image" src="{% static 'img/edit_profile.png' %}">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" style="background-color: #EF3A25; color: white;" data-bs-dismiss="modal"
+          aria-label="Close"> Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+</html>
+{% endblock %}
+
+<style>
+  body{
+    background-color: #dbdac8;
+  }
+  .personal-info{
+    width: 100%;
+    padding: 20px;
+    margin: 0 auto;
+    max-width: 1600px;
+    border: 2px solid #808080; 
+    border-radius: 10px;
+  }
+  .navbar{
+    background-color: #134983;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+  h2{
+    color: white;
+    font-weight: bolder;
+  }
+  form{
+    width: 100%;
+    align-self: center;
+    border: black;
+  }
+  .title{
+    padding-left: 30px;
+  }
+  .container{
+    display: block;
+  }
+  .form-btn{
+    align-items: center;
+  }
+  .profile{
+    width: 100%;
+    max-width: 200px;
+    padding-right: 50px;
+  }
+  .buttons-1{
+    justify-content: space-between;
+    gap: 10px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 0px 10px 0px 10px;
+  }
+
+  @media only screen and (max-width: 600px) {
+  .profile {
+    display: none;
+  }
+  /* .buttons-1{
+    flex-direction: column;
+    align-items: center;
+  } */
+  }
+  @media only screen and (max-width: 800px) {
+  .profile {
+    display: none;
+  }
+  
+  /* .buttons-1{
+    flex-direction: column;
+    align-items: center;
+  } */
+  }
+  #myForm2,#myForm3,#myForm4,#myForm5,#myForm6,#myForm7,#myForm8{
+    display: none;
+  }
+  .save-btn{
+    text-align: right;
+    
+  }
+  h3 {
+        color: black;
+    }
+    .container{
+        font-family: Roboto, sans-serif;
+        border-style: 1px solid grey;
+        background-color: rgb(174, 199, 192);
+        margin: 0 auto;
+        text-align: center;
+        opacity: 0.8;
+        box-shadow: 2px 5px 5px 0px #eee;
+        max-width: 555px;
+        padding-top: 5px;
+        height: auto;
+        padding-bottom: 20px;
+        margin-top: 50px;
+    }
+    .heading {
+        text-decoration: bold;
+        text-align: center;
+        font-size: 40px;
+        color: rgb(0, 0, 0);
+        padding-top: 10px;
+    }
+    .custom{
+        display: none;
+    }
+    .custom-select{
+        width: 420px;
+    }
+    .dropdown-item{
+        width: 420px;
+    } 
+    #helpCheckBox {
+        position: fixed;
+        bottom: 10px;
+        border-left-style: 30px;
+        display: none;
+    }
+
+    .help-container {
+        position: fixed;
+        bottom: 10px;
+        left: 25px;
+        cursor: pointer;
+        z-index: 1040;
+    }
+
+    .helpIconButton {
+        width: 50px;
+        height: 50px;
+        background: #0eb858;
+        border-radius: 100%;
+        cursor: pointer;
+        box-shadow: 8px 5px 5px #aaaaaa;
+    }
+
+    .helpIconButton i {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        color: white;
+    }
+
+    /* Help List Stylings */
+
+    .helpOptions {
+        list-style-type: none;
+        position: absolute;
+        bottom: 45px;
+        left: 0px;
+        display: none;
+        max-height: 100vh;
+        z-index: 1040;
+    }
+
+    .helpOptions li {
+        display: flex;
+        justify-content: flex-end;
+        padding: 5px;
+        z-index: 1040;
+        position: relative;
+    }
+
+    .btn-label {
+        padding: 10px 25px;
+        margin-right: 10px;
+        align-self: center;
+        background-color: #0eb858;
+        color: white;
+        border-radius: 3px;
+        box-shadow: 8px 8px 5px #676767;
+        text-align: center;
+        max-width: 500px;
+        min-width: 350px;
+        border-radius: 15px;
+        z-index: 1040;
+        position: relative;
+
+    }
+
+    #helpCheckBox:checked+label .helpOptions {
+        display: inline;
+        transition: 1s;
+    }
+
+    @media screen and (max-width: 500px) {
+        .helpIconButton i {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: white;
+            font-size: 15px;
+        }
+
+        .btn-label {
+            padding: 10px 25px;
+            margin-right: 10px;
+            align-self: center;
+            background-color: #188045;
+            color: white;
+            border-radius: 3px;
+            box-shadow: 8px 8px 5px #676767;
+            text-align: center;
+            max-width: 500px;
+            min-width: 230px;
+            border-radius: 15px;
+            z-index: 1040;
+        }
+
+        .helpOptions {
+            list-style-type: none;
+            position: absolute;
+            bottom: 45px;
+            right: 0px;
+            display: none;
+            z-index: 1040;
+        }
+
+        .help-container {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+    }
+</style>
+
+
+<script>
+window.addEventListener('beforeunload', function (event) {
+const forms = document.querySelectorAll('form');
+
+  for (let i = 0; i < forms.length; i++) {
+    const form = forms[i];
+    if (form.checkValidity()) {
+      continue; // Skip if the form is valid
+    }
+
+    const formInputs = form.querySelectorAll('input, select, textarea');
+    for (let j = 0; j < formInputs.length; j++) {
+      const input = formInputs[j];
+      if (input.value !== input.defaultValue) {
+        // Display the custom message if there are unsaved changes
+        event.preventDefault();
+        event.returnValue = 'You have unsaved changes in the form. Are you sure you want to leave this page?';
+        return event.returnValue;
+      }
+    }
+  }
+});
+
+// datee
+var birthdayInput = document.getElementById('date_birth1');
+var birthdayInput2 = document.getElementById('date_birth2');
+var birthdayInput3 = document.getElementById('date_birth3');
+var birthdayInput4 = document.getElementById('date_birth4');
+var birthdayInput5 = document.getElementById('date_birth5');
+var birthdayInput6 = document.getElementById('date_birth6');
+var birthdayInput7 = document.getElementById('date_birth7');
+var birthdayInput8 = document.getElementById('date_birth8');
+var birthdayInput9 = document.getElementById('date_birth9');
+var birthdayInput10 = document.getElementById('date_birth10');
+
+
+var today = new Date();
+var year = today.getFullYear();
+var month = today.getMonth() + 1; // Note: Month is zero-based (0 = January)
+var day = today.getDate();
+
+var maxDate = year + '-' + month.toString().padStart(2, '0') + '-' + day.toString().padStart(2, '0');
+birthdayInput.setAttribute('max', maxDate);
+birthdayInput2.setAttribute('max', maxDate);
+birthdayInput3.setAttribute('max', maxDate);
+birthdayInput4.setAttribute('max', maxDate);
+birthdayInput5.setAttribute('max', maxDate);
+birthdayInput6.setAttribute('max', maxDate);
+birthdayInput7.setAttribute('max', maxDate);
+birthdayInput8.setAttribute('max', maxDate);
+birthdayInput9.setAttribute('max', maxDate);
+birthdayInput10.setAttribute('max', maxDate);
+
+</script>
